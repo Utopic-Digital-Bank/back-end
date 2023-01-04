@@ -47,12 +47,13 @@ THIRD_PARTY_APPS = [
 ]
 
 MY_APPS = [
-   "users",
+    "users",
     "products",
     "services",
-    "accounts",
+    "account",
     "card",
     "extract",
+    "economicConsultant",
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + MY_APPS
