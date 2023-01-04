@@ -5,7 +5,7 @@ class Invoice(models.Model):
         ordering = ("id",)
     value = models.FloatField(max_length=17)
     month = models.CharField(max_length=20)
-    paid = models.BooleanField()
+    paid = models.BooleanField(default=False)
     due_date = models.DateField()
 
     card = models.ForeignKey(
