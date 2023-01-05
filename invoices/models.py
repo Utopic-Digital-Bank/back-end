@@ -9,12 +9,12 @@ class Invoice(models.Model):
     due_date = models.DateField()
 
     card = models.ForeignKey(
-        "cards.Card",
+        "card.Card",
         on_delete=models.PROTECT,
         related_name="invoices",
     )
 
-    launch = models.ManyToManyField(
+    """ launch = models.ManyToManyField(
         "launchs.Launch",
         related_name="invoices",
-    )
+    ) """
