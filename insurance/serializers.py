@@ -4,6 +4,7 @@ from .models import Insurance
 
 class InsuranceSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
+    is_active = serializers.BooleanField(read_only=True)
 
     class Meta:
         model = Insurance
