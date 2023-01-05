@@ -55,6 +55,7 @@ MY_APPS = [
     "invoices",
     "InvestmentCdi",
     "insurance",
+    "launch"
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + MY_APPS
