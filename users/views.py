@@ -3,11 +3,12 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 from users.serializers import UserSerializer, CustomJWTSerializer
 
 from .models import User
-from .permissions import OnlyADMlistOpenToPost
+from .permissions import OnlyADMlistOpenToPost, OnlyADMorOwner
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework_simplejwt.exceptions import InvalidToken, TokenError
 
+from django.shortcuts import get_object_or_404
 
 class LoginJWTView(TokenObtainPairView):
     serializer_class = CustomJWTSerializer
@@ -45,3 +46,20 @@ class UserView(APIView):
         self.check_object_permissions(request,user)
         serializer = UserSerializer(user, many=True)
         return Response(serializer.data, status.HTTP_200_OK)
+
+class UserDetailView(APIView):
+    authentication_classes=[JWTAuthentication]
+    permission_classes=[IsAuthenticated,OnlyADMorOwner] 
+
+    def patch(self, request, user_id):
+        user = get_object_or_404(User,id= user_id)
+        self.check_object_permissions(request, user)
+        serializer= UserSerializer(user, request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status.HTTP_201_CREATED)
+
+
+
+    
+    
