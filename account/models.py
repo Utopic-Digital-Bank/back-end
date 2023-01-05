@@ -3,7 +3,7 @@ from django.db import models
 
 class Account(models.Model):
     balance = models.FloatField()
-    creation_date = models.DateTimeField(auto_now=True)
+    created_at = models.DateTimeField(auto_now=True)
 
     user_id = models.OneToOneField(
         "users.User",
