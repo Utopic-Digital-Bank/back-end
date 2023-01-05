@@ -53,7 +53,8 @@ MY_APPS = [
     "extract",
     "economicConsultant",
     "invoices",
-    "InvestmentCdi"
+    "InvestmentCdi",
+    "insurance",
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + MY_APPS
@@ -91,7 +92,7 @@ WSGI_APPLICATION = "utopic_bank.wsgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
-db= os.getenv("POSTGRES_DB")
+db = os.getenv("POSTGRES_DB")
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
