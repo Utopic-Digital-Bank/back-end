@@ -9,4 +9,5 @@ class Extract(models.Model):
     # Referencias do Faturamento(Tipo de Operação, Data Criação e Chave Estrangeira da 'conta')
     operation = models.CharField(max_length=50)
     created_at = models.DateTimeField()
-    # accountID = models.ForeignKey()
+
+    account = models.ForeignKey("account.Account", related_name="extract", on_delete=models.PROTECT)
