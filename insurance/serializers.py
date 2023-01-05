@@ -20,6 +20,14 @@ class InsuranceSerializer(serializers.ModelSerializer):
 
         return insurance
 
-    def delete(self):
-        self.is_active = False
-        self.save()
+    def update(self, instance: Insurance, validated_data: dict) -> Insurance:
+        for key, value in validated_data.items():
+            if (key is 'tuition'):
+                setattr(instance, key, value)
+
+            else:
+                raise KeyError(f"The parameter {key} not is alterabled")
+
+        instance.save()
+
+        return instance
