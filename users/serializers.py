@@ -20,12 +20,12 @@ class UserSerializer(serializers.ModelSerializer):
         extra_kwargs={"password":{"write_only":True}}
 
     def create(self, validated_data):
-        email=validated_data["email"]
+        cpf=validated_data["cpf"]
         username=""
-        for word in email:
-            if word == "@":
-                break
-            username= username + word
+        for number in cpf:
+            if number == " " or number ==".":
+                continue
+            username= username + number
         
         validated_data["username"]= username
         try:

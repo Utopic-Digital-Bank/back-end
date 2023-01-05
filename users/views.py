@@ -13,14 +13,14 @@ class LoginJWTView(TokenObtainPairView):
     serializer_class = CustomJWTSerializer
     def post(self, request, *args, **kwargs):
         username=""
-        email=request.data["email"]
+        cpf=request.data["cpf"]
 
-        for word in email:
-            if word =="@":
-                break
-            username= username + word
+        for number in cpf:
+            if number ==" " or number =="." or number =="-":
+                continue
+            username= username + number
         request.data["username"]=username
-        request.data.pop('email')
+        request.data.pop('cpf')
 
         serializer= self.get_serializer(data=request.data)
         try:
