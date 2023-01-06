@@ -1,7 +1,6 @@
 from rest_framework import serializers
 from users.models import User
 
-import ipdb
 
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
@@ -23,7 +22,7 @@ class UserSerializer(serializers.ModelSerializer):
         cpf=validated_data["cpf"]
         username=""
         for number in cpf:
-            if number == " " or number ==".":
+            if number == " " or number =="." or number == "-":
                 continue
             username= username + number
         
@@ -37,9 +36,6 @@ class UserSerializer(serializers.ModelSerializer):
              user= User.objects.create_user(**validated_data, is_superuser=False)
              return user
             
-       
-        
-
     def validate_cpf(self, cpf):
         cpf_already_exists= User.objects.filter(cpf=cpf).exists()
         if cpf_already_exists:
@@ -50,3 +46,14 @@ class UserSerializer(serializers.ModelSerializer):
         if email_already_exists:
             raise serializers.ValidationError(detail= "email already registered.")
         return email
+
+    def update(self, instance, validated_data):
+        for key, value in validated_data.items():
+            if key == "email":
+                setattr(instance, key, value)
+
+            else:
+                raise KeyError(f"The parameter {key} not is alterabled")
+
+        instance.save()
+        return instance
