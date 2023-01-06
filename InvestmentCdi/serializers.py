@@ -21,3 +21,13 @@ class InvestmentCdiSerializer(serializers.ModelSerializer):
         investmentCdi = InvestmentCdi.objects.create(**validated_data)
 
         return investmentCdi
+
+
+class GetAllInvestmentCdiSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = InvestmentCdi
+
+        fields = [
+            "id",
+            "current_value"
+        ]
