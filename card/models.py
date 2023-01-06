@@ -17,7 +17,7 @@ class Card(models.Model):
     # Dados de segurança(Número do Cartão, Senha e CVV)
     number = models.CharField(max_length=16)
     password = models.CharField(max_length=4)
-    cvv = models.DecimalField(max_digits=3, decimal_places=0)
+    cvv = models.CharField(max_length=3)
 
     # Dados da Fatura(Valor Atual, Dia do Vencimento, Tipo do Cartão)
     balance_invoices = models.FloatField(max_length=17)
@@ -38,5 +38,5 @@ class Card(models.Model):
     available_limit = models.FloatField(max_length=17)
 
     # Detalhamento do status do cartão(Status atual, Chave Estrangeira do app 'Conta' )
-    is_active = models.BooleanField()
+    is_active = models.BooleanField(default=True)
     account_id = models.ForeignKey("account.Account", related_name="card", on_delete=models.PROTECT)
