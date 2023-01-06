@@ -28,37 +28,10 @@ class AccountView(generics.ListCreateAPIView):
         serializer.save(user_id=self.request.user, insurance_id= insuranceGet, economic_consultant_id= economicGet)
 
 # @extend_schema(methods=["PUT"], exclude=True)
-# class AccountDetails(generics.RetrieveUpdateDestroyAPIView):
-#         authentication_classes = [JWTAuthentication]
-#         permission_classes = [IsAuthenticated, IsAccountOwner]
-#         serializer_class = Extract
-#         queryset = Account.objects.all()
-#         lookup_url_kwarg = "pk"
+class AccountDetails(generics.ListAPIView):
+        authentication_classes = [JWTAuthentication]
+        permission_classes = [IsAuthenticated, IsAccountOwner]
+        serializer_class = AccountSerializer
+        queryset = Account.objects.all()
+        lookup_url_kwarg = "pk"
 
-#         def perform_update(self, serializer):
-#  #   Atualiza somente o balance
-#             valueOperation = self.valueOperation
-#             account = get_object_or_404(Account, id = self.account_id)
-#             if self.operation == "ENTRADA":
-#                 account.balance = (self.previous_balance + valueOperation)
-#             else:
-#                 account.balance = (self.previous_balance - valueOperation)
-#             Account.objects.update(account)
-#             serializer.save(self)
-            
-  #  Cria um extract (Object.create)
-        #     extractsObj = Extract.objects.create() 
-        #    ... 
-
-# class AccountOperations(generics.CreateAPIView):
-#     authentication_classes = [JWTAuthentication]
-#     permission_classes = [IsAuthenticated, IsAccountOwner]
-#     #serializer_class = #ExtractSerializer
-#     queryset = Extract.objects.all()
-#     # lookup_url_kwarg = "pk"
-
-#     def perform_create(self, serializer):
-#       # Atualiza somente o balance
-#         # valueExtract = self.value
-#         # account = get_object_or_404(Account, id = self.account_id)    
-#          ...
