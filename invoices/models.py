@@ -4,7 +4,8 @@ class Invoice(models.Model):
     class Meta:
         ordering = ("id",)
     value = models.FloatField(max_length=17)
-    month = models.CharField(max_length=20)
+    month_reference = models.DateField(max_length=20)
+    closing_date = models.DateField()
     paid = models.BooleanField(default=False)
     due_date = models.DateField()
 
