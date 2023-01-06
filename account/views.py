@@ -1,5 +1,6 @@
 from .models import Account
 from .serializers import AccountSerializer, UpdateBalance
+from extract.serializers import ExtractSerializer
 from rest_framework.pagination import PageNumberPagination
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
@@ -27,20 +28,27 @@ class AccountView(generics.ListCreateAPIView):
         serializer.save(user_id=self.request.user, insurance_id= insuranceGet, economic_consultant_id= economicGet)
 
 # @extend_schema(methods=["PUT"], exclude=True)
-class AccountDetails(generics.RetrieveUpdateDestroyAPIView):
-        authentication_classes = [JWTAuthentication]
-        permission_classes = [IsAuthenticated, IsAccountOwner]
-        serializer_class = UpdateBalance
-        queryset = Account.objects.all()
-        lookup_url_kwarg = "pk"
+# class AccountDetails(generics.RetrieveUpdateDestroyAPIView):
+#         authentication_classes = [JWTAuthentication]
+#         permission_classes = [IsAuthenticated, IsAccountOwner]
+#         serializer_class = Extract
+#         queryset = Account.objects.all()
+#         lookup_url_kwarg = "pk"
 
-        def perform_update(self, serializer):
-#     # Atualiza somente o balance
-#         # valueExtract = self.value
-#         # account = get_object_or_404(Account, id = self.account_id)
-#     # Cria um extract (Object.create)
-#         #extractsObj = Extract.objects.create()
-#            ... 
+#         def perform_update(self, serializer):
+#  #   Atualiza somente o balance
+#             valueOperation = self.valueOperation
+#             account = get_object_or_404(Account, id = self.account_id)
+#             if self.operation == "ENTRADA":
+#                 account.balance = (self.previous_balance + valueOperation)
+#             else:
+#                 account.balance = (self.previous_balance - valueOperation)
+#             Account.objects.update(account)
+#             serializer.save(self)
+            
+  #  Cria um extract (Object.create)
+        #     extractsObj = Extract.objects.create() 
+        #    ... 
 
 # class AccountOperations(generics.CreateAPIView):
 #     authentication_classes = [JWTAuthentication]
@@ -53,5 +61,4 @@ class AccountDetails(generics.RetrieveUpdateDestroyAPIView):
 #       # Atualiza somente o balance
 #         # valueExtract = self.value
 #         # account = get_object_or_404(Account, id = self.account_id)    
-#         ...
-         
+#          ...
