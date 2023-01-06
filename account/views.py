@@ -1,5 +1,5 @@
 from .models import Account
-from .serializers import AccountSerializer, UpdateBalance
+from .serializers import AccountSerializer, UpdateAccount
 from extract.serializers import ExtractSerializer
 from rest_framework.pagination import PageNumberPagination
 from rest_framework_simplejwt.authentication import JWTAuthentication
@@ -28,10 +28,10 @@ class AccountView(generics.ListCreateAPIView):
         serializer.save(user_id=self.request.user, insurance_id= insuranceGet, economic_consultant_id= economicGet)
 
 # @extend_schema(methods=["PUT"], exclude=True)
-class AccountDetails(generics.ListAPIView):
+class AccountDetails(generics.RetrieveUpdateAPIView):
         authentication_classes = [JWTAuthentication]
         permission_classes = [IsAuthenticated, IsAccountOwner]
-        serializer_class = AccountSerializer
+        serializer_class = UpdateAccount
         queryset = Account.objects.all()
         lookup_url_kwarg = "pk"
 

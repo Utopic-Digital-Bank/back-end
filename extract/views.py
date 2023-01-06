@@ -26,15 +26,13 @@ class CreateExtract(generics.ListCreateAPIView):
             valueOperation = self.valueOperation
             self.previous_balance = account.balance
             
-            if self.operation == "ENTRADA":
+            if self.operation == "DEPOSITO":
                 self.current_balance = self.valueOperation + self.previous_balance
                 account.balance = (self.previous_balance + valueOperation)
                 account.save()
-            elif self.operation == "SAIDA":
+            else:
                 self.current_balance = self.valueOperation - self.previous_balance
                 self.previous_balance = self.current_balance
                 account.balance = (self.previous_balance - valueOperation)
                 account.save()
-            else:
-                raise ValueError("Operation not supported")
             serializer.save(self)

@@ -26,3 +26,4 @@ class ExtractSerializer(serializers.ModelSerializer):
             account = Account.object.get(self.account_id==id)
             return (account.balance - self.valueOperation)
 
+
