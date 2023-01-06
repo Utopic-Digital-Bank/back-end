@@ -36,7 +36,6 @@ class Card(models.Model):
     # Detalhamento da Fatura(Limite Total, Limite Disponivel, Data do Vencimento)
     total_limit = models.FloatField(max_length=17)
     available_limit = models.FloatField(max_length=17)
-    card_expiration = models.DateField(auto_now_add=True)
 
     # Detalhamento do status do cartão(Status atual, Chave Estrangeira do app 'Conta' )
     is_active = models.BooleanField()
