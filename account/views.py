@@ -35,23 +35,23 @@ class AccountDetails(generics.RetrieveUpdateDestroyAPIView):
         lookup_url_kwarg = "pk"
 
         def perform_update(self, serializer):
-    # Atualiza somente o balance
-        # valueExtract = self.value
-        # account = get_object_or_404(Account, id = self.account_id)
-    # Cria um extract (Object.create)
-        #extractsObj = Extract.objects.create()
-           ... 
+#     # Atualiza somente o balance
+#         # valueExtract = self.value
+#         # account = get_object_or_404(Account, id = self.account_id)
+#     # Cria um extract (Object.create)
+#         #extractsObj = Extract.objects.create()
+#            ... 
 
-class AccountOperations(generics.CreateAPIView):
-    authentication_classes = [JWTAuthentication]
-    permission_classes = [IsAuthenticated, IsAccountOwner]
-    #serializer_class = #ExtractSerializer
-    queryset = Extract.objects.all()
-    # lookup_url_kwarg = "pk"
+# class AccountOperations(generics.CreateAPIView):
+#     authentication_classes = [JWTAuthentication]
+#     permission_classes = [IsAuthenticated, IsAccountOwner]
+#     #serializer_class = #ExtractSerializer
+#     queryset = Extract.objects.all()
+#     # lookup_url_kwarg = "pk"
 
-    def perform_create(self, serializer):
-      # Atualiza somente o balance
-        # valueExtract = self.value
-        # account = get_object_or_404(Account, id = self.account_id)    
-        ...
+#     def perform_create(self, serializer):
+#       # Atualiza somente o balance
+#         # valueExtract = self.value
+#         # account = get_object_or_404(Account, id = self.account_id)    
+#         ...
          
