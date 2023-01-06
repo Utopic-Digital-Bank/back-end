@@ -3,7 +3,6 @@ from django.db import models
 class OperationOptions(models.TextChoices):
     SAIDA = ["pix", "transferência", "saque", "pagamento"]
     ENTRADA = ["depósito"]
-    ERRO = "NÃO EFETUADO"
 
 class Extract(models.Model):
     

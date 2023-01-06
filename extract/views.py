@@ -30,7 +30,7 @@ class CreateExtract(generics.ListCreateAPIView):
                 self.current_balance = self.valueOperation + self.previous_balance
                 account.balance = (self.previous_balance + valueOperation)
                 account.save()
-            elif self.operation == "SAÍDA":
+            elif self.operation == "SAIDA":
                 self.current_balance = self.valueOperation - self.previous_balance
                 self.previous_balance = self.current_balance
                 account.balance = (self.previous_balance - valueOperation)

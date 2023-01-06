@@ -1,10 +1,12 @@
 from rest_framework import serializers
-from .models import Extract
+from .models import Extract, OperationOptions
 from account.models import Account
 
 class ExtractSerializer(serializers.ModelSerializer):
+    
+    operation = serializers.ChoiceField(choices = OperationOptions.choices)
+    current_balance = serializers.SerializerMethodField()
     class Meta:
-        current_balance = serializers.SerializerMethodField()
         model = Extract
         fields = [
         "valueOperation",
@@ -20,7 +22,7 @@ class ExtractSerializer(serializers.ModelSerializer):
             account = Account.object.get(self.account_id==id)
             return account.balance
 
-        def get_current_balance(self, obj):
+        def get_previous_balance(self, obj):
             account = Account.object.get(self.account_id==id)
             return (account.balance - self.valueOperation)
 
