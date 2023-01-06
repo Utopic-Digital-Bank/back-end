@@ -12,11 +12,12 @@ class AccountSerializer(serializers.ModelSerializer):
             "insurance_id",
             "economic_consultance_id",
         ]
-        extra_kwargs = {["balance","created_at"]: {"read_only": True}}
+        extra_kwargs = {"balance": {"read_only": True}, "created_at": {"read_only": True}}
 
 
-class UpdateBalance(serializers.ModelSerializer):
+class UpdateAccount(serializers.ModelSerializer):
     model = Account
     fields = [
-        "balance"
-        ]
+        "insurance_id",
+        "economic_consultance_id"
+    ]
