@@ -1,5 +1,6 @@
 from rest_framework import serializers
 
+
 from .models import Card, DueDateChoices, CardChoices
 
 
@@ -31,6 +32,7 @@ class CardSerializer(serializers.Serializer):
         instance.save()
 
         return instance
+
 
 
 
