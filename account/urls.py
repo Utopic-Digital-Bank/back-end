@@ -8,4 +8,3 @@ urlpatterns = [
     # path("account/insurance/", #Views de insurance#,
     # path("account/economic_consultant/ #Views de account#")#
 
-]
