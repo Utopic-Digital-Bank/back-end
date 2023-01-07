@@ -1,5 +1,6 @@
 from django.shortcuts import *
 from rest_framework.generics import RetrieveUpdateDestroyAPIView, ListCreateAPIView
+from rest_framework.views import status, Response
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from datetime import date
 import json
@@ -44,9 +45,21 @@ class ListCreateInvestmentCdiView(ListCreateAPIView):
 
         return investments
 
+    def create(self, request, *args, **kwargs):
+        account = Account.objects.get(id=self.kwargs["account_id"])
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        if (account.balance >= request.data["initial_value"]):
+            account.balance -= request.data["initial_value"]
+            self.perform_create(serializer)
+            headers = self.get_success_headers(serializer.data)
+            account.save()
+            return Response(serializer.data, status.HTTP_201_CREATED, headers=headers)
+        else:
+            return Response({"balanceInsuficient": "account does not have enough balance for the requested investment"}, status.HTTP_402_PAYMENT_REQUIRED)
+
     def perform_create(self, serializer):
-        ipdb.set_trace()
-        serializer.save(account_id=self.kwargs["account_id"])
+        return serializer.save(account_id=self.kwargs["account_id"])
 
 
 class InvestmentCdiDetailView(RetrieveUpdateDestroyAPIView):
