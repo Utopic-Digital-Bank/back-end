@@ -1,6 +1,5 @@
 from django.shortcuts import *
-from rest_framework.views import Response, status
-from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
+from rest_framework.generics import RetrieveUpdateDestroyAPIView, ListCreateAPIView
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from datetime import date
 import json
@@ -12,10 +11,16 @@ from InvestmentCdi.models import InvestmentCdi
 from account.models import Account
 
 
-class InvestmentCdiView(ListCreateAPIView):
+class ListCreateInvestmentCdiView(ListCreateAPIView):
     authentication_classes = [JWTAuthentication]
     permission_classes = []
-    serializer_class = GetAllInvestmentCdiSerializer
+
+    def get_serializer_class(self):
+        if self.request.method == 'GET':
+            return GetAllInvestmentCdiSerializer
+
+        elif self.request.method == "POST":
+            return InvestmentCdiSerializer
 
     def get_queryset(self):
         investments = get_list_or_404(
@@ -38,6 +43,10 @@ class InvestmentCdiView(ListCreateAPIView):
             investment.save()
 
         return investments
+
+    def perform_create(self, serializer):
+        ipdb.set_trace()
+        serializer.save(account_id=self.kwargs["account_id"])
 
 
 class InvestmentCdiDetailView(RetrieveUpdateDestroyAPIView):
