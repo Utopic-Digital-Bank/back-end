@@ -1,6 +1,15 @@
 from django.db import models
 
 
+class Specialtys(models.TextChoices):
+    INVESTIMENTOS = "Investimentos",
+    FINANCAS_PESSOAIS = "Finanças Pessoais",
+    POUPANCA = "Poupança"
+
+
 class EconomicConsultant(models.Model):
     name = models.CharField(max_length=200)
-    specialty = models.CharField(max_length=50)
+    specialty = models.CharField(
+        max_length=30,
+        choices=Specialtys.choices
+    )

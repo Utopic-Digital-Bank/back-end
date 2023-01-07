@@ -14,7 +14,7 @@ class Invoice(models.Model):
         related_name="invoices",
     )
 
-    """ launch = models.ManyToManyField(
-        "launchs.Launch",
+    launch = models.ManyToManyField(
+        "launch.Launch",
         related_name="invoices",
-    ) """
+    ) 
