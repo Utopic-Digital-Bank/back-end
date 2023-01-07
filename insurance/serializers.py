@@ -3,9 +3,6 @@ from .models import Insurance
 
 
 class InsuranceSerializer(serializers.ModelSerializer):
-    id = serializers.IntegerField(read_only=True)
-    is_active = serializers.BooleanField(read_only=True)
-
     class Meta:
         model = Insurance
 
@@ -23,12 +20,8 @@ class InsuranceSerializer(serializers.ModelSerializer):
 
     def update(self, instance: Insurance, validated_data: dict) -> Insurance:
         for key, value in validated_data.items():
-            if (key is 'tuition'):
+            if (key == 'tuition'):
                 setattr(instance, key, value)
-
-            else:
-                raise KeyError(f"The parameter {key} not is alterabled")
-
         instance.save()
 
         return instance
