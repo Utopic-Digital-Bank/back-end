@@ -34,13 +34,11 @@ class InvestmentCdiSerializer(serializers.ModelSerializer):
 
         response_b3 = requests.get(url)
         response_b3 = json.loads(response_b3.content)
-        validated_data["current_value"] = float(response_b3["valorCalculado"])
+        validated_data["current_value"] = float(
+            response_b3["valorCalculado"])
         validated_data["yield_value"] = (
             float(response_b3["valorCalculado"]) - float(response_b3["valorBase"]))
-
-        investmentCdi = InvestmentCdi.objects.create(**validated_data)
-
-        return investmentCdi
+        return InvestmentCdi.objects.create(**validated_data)
 
 
 class GetAllInvestmentCdiSerializer(serializers.ModelSerializer):
