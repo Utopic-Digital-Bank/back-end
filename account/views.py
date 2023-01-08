@@ -14,7 +14,6 @@ from extract.models import Extract
 # from drf_spectacular.utils import extend_schema
 
 
-
 class AccountView(generics.ListCreateAPIView):
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticatedOrReadOnly]
@@ -23,9 +22,11 @@ class AccountView(generics.ListCreateAPIView):
     pagination_class = PageNumberPagination
 
     def perform_create(self, serializer):
-        insuranceGet = get_object_or_404(Insurance, id = self.kwargs["pk"])
-        economicGet = get_object_or_404(EconomicConsultant, id = self.kwargs["pk"])
-        serializer.save(user_id=self.request.user, insurance_id= insuranceGet, economic_consultant_id= economicGet)
+        insuranceGet = get_object_or_404(Insurance, id=self.kwargs["pk"])
+        economicGet = get_object_or_404(
+            EconomicConsultant, id=self.kwargs["pk"])
+        serializer.save(user_id=self.request.user,
+                        insurance_id=insuranceGet, economic_consultant_id=economicGet)
 
 # @extend_schema(methods=["PUT"], exclude=True)
 class AccountDetails(generics.RetrieveUpdateAPIView):

@@ -8,5 +8,5 @@ class IsAccountOwner(permissions.BasePermission):
         if not request.user.is_superuser:
             return obj == request.user
         return True
-        
+
         # return request.user.is_authenticated and obj == request.user
