@@ -3,8 +3,8 @@ from django.db import models
 class Invoice(models.Model):
     class Meta:
         ordering = ("id",)
-    value = models.FloatField(max_length=17)
-    month_reference = models.DateField(max_length=20)
+    value = models.FloatField()
+    month_reference = models.DateField()
     closing_date = models.DateField()
     paid = models.BooleanField(default=False)
     due_date = models.DateField()
