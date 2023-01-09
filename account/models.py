@@ -2,7 +2,7 @@ from django.db import models
 
 
 class Account(models.Model):
-    balance = models.FloatField()
+    balance = models.FloatField(default=0.0)
     created_at = models.DateTimeField(auto_now=True)
 
     user_id = models.OneToOneField(
@@ -10,13 +10,12 @@ class Account(models.Model):
         on_delete=models.PROTECT,
         related_name="account",
     )
-    # insurance_id = models.ManyToManyField(
-    #     "insurance.Insurance",
-    #     on_delete=models.CASCADE,
-    #     related_name="account",
-    #     blank=True,
-    #     null=True,
-    # )
+    insurance_id = models.ManyToManyField(
+        "insurance.Insurance",
+        related_name="account",
+        blank=True,
+        
+    )
     economic_consultance_id = models.ForeignKey(
         "economicConsultant.EconomicConsultant",
         on_delete=models.PROTECT,

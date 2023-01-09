@@ -1,5 +1,5 @@
-from .models import Account
-from .serializers import AccountSerializer, UpdateBalance
+
+from account.serializers import AccountSerializer, UpdateAccount
 from extract.serializers import ExtractSerializer
 from rest_framework.pagination import PageNumberPagination
 from rest_framework_simplejwt.authentication import JWTAuthentication

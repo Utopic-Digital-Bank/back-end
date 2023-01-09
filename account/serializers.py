@@ -10,10 +10,8 @@ class AccountSerializer(serializers.ModelSerializer):
             "balance",
             "created_at",
             "user_id",
-            "insurance_id",
-            "economic_consultance_id",
         ]
-        read_only_fields = ["balance", "created_at"]
+        read_only_fields = ["balance", "created_at","balance","user_id"]
 
 
 class UpdateAccount(serializers.ModelSerializer):
