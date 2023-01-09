@@ -9,13 +9,26 @@ class AccountSerializer(serializers.ModelSerializer):
             "id",
             "balance",
             "created_at",
-            "user_id",
-            "insurance_id",
-            "economic_consultance_id",
+            "user_id"
         ]
-        read_only_fields = ["balance", "created_at"]
+        read_only_fields = [ "id",
+            "balance",
+            "created_at",
+            "user_id"]
 
 
-class UpdateBalance(serializers.ModelSerializer):
-    model = Account
-    fields = ["balance"]
+class UpdateAccount(serializers.ModelSerializer):
+    class Meta:
+        model = Account
+        fields = [
+        "insurance_id",
+        "economic_consultance_id",
+        "id",
+        "balance",
+        "created_at",
+        "user_id"
+        ]
+        read_only_fields = [ "id",
+            "balance",
+            "created_at",
+            "user_id"]
