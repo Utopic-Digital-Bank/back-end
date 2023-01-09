@@ -12,7 +12,7 @@ class OperationOptions(models.TextChoices):
 class Extract(models.Model):
 
     # Detalhes do faturamento(Valor anterior e Valor atual)
-    valueOperation = models.FloatField(max_length=17, default=00.1)
+    valueOperation = models.FloatField(max_length=17)
     previous_balance = models.FloatField(max_length=17)
     current_balance = models.FloatField(max_length=17)
 
