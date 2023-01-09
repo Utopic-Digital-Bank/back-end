@@ -11,4 +11,4 @@ class IsAccountOwner(permissions.BasePermission):
         if request.user.is_superuser:
             return True
         return obj.user_id == request.user.id
- 
+
