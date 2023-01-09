@@ -3,9 +3,11 @@ from rest_framework_simplejwt.authentication import JWTAuthentication
 from account.permissions import IsAccountOwner
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import generics
+from rest_framework.views import Response, status
 from django.shortcuts import get_object_or_404
 from .models import Extract
 from account.models import Account
+import ipdb
 
 
 class ListExtract (generics.ListAPIView):
@@ -20,21 +22,15 @@ class CreateExtract(generics.ListCreateAPIView):
     permission_classes = [IsAuthenticated, IsAccountOwner]
     serializer_class = ExtractSerializer
     queryset = Extract.objects.all()
-    lookup_url_kwarg = "pk"
+    lookup_url_kwarg = "account_id"
+
+    def create(self, request, *args, **kwargs):
+        SAIDA = ["saque", "pagamento", "pix", "transferência"]
+
+        account = Account.objects.get(id=self.kwargs["account_id"])
+        if (request.data['operation'] in SAIDA and account.balance < request.data['valueOperation']):
+            return Response({"valueInsuficient": "The account balance is not enough for the transaction"}, status.HTTP_402_PAYMENT_REQUIRED)
+        return super().create(request, *args, **kwargs)
 
     def perform_create(self, serializer):
-     #   Atualiza somente o balance
-        account = get_object_or_404(Account, id=self.kwargs["pk"])
-        valueOperation = self.valueOperation
-        self.previous_balance = account.balance
-
-        if self.operation == "DEPOSITO":
-            self.current_balance = self.valueOperation + self.previous_balance
-            account.balance = (self.previous_balance + valueOperation)
-            account.save()
-        else:
-            self.current_balance = self.valueOperation - self.previous_balance
-            self.previous_balance = self.current_balance
-            account.balance = (self.previous_balance - valueOperation)
-            account.save()
-        serializer.save(self)
+        return serializer.save(account_id=self.kwargs["account_id"])
