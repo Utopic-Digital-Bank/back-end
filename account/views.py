@@ -34,7 +34,7 @@ class AccountDetails(generics.RetrieveUpdateDestroyAPIView):
         queryset = Account.objects.all()
         lookup_url_kwarg = "pk"
 
-        def perform_update(self, serializer):
+      # def perform_update(self, serializer):
 #     # Atualiza somente o balance
 #         # valueExtract = self.value
 #         # account = get_object_or_404(Account, id = self.account_id)

@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from .models import Account
 
+
 class AccountSerializer(serializers.ModelSerializer):
     class Meta:
         model = Account
@@ -12,11 +13,9 @@ class AccountSerializer(serializers.ModelSerializer):
             "insurance_id",
             "economic_consultance_id",
         ]
-        extra_kwargs = {["balance","created_at"]: {"read_only": True}}
+        read_only_fields = ["balance", "created_at"]
 
 
 class UpdateBalance(serializers.ModelSerializer):
     model = Account
-    fields = [
-        "balance"
-        ]
+    fields = ["balance"]
