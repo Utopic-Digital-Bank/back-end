@@ -1,14 +1,9 @@
-from account.serializers import AccountSerializer
 from extract.serializers import ExtractSerializer
-from rest_framework.pagination import PageNumberPagination
 from rest_framework_simplejwt.authentication import JWTAuthentication
-from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from account.permissions import IsAccountOwner
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import generics
 from django.shortcuts import get_object_or_404
-from economicConsultant.models import EconomicConsultant
-from insurance.models import Insurance
 from .models import Extract
 from account.models import Account
 
@@ -16,14 +11,14 @@ from account.models import Account
 class ListExtract (generics.ListAPIView):
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated, IsAccountOwner]
-    serializer_class = Extract
+    serializer_class = ExtractSerializer
     queryset = Extract.objects.all()
 
 
 class CreateExtract(generics.ListCreateAPIView):
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated, IsAccountOwner]
-    serializer_class = Extract
+    serializer_class = ExtractSerializer
     queryset = Extract.objects.all()
     lookup_url_kwarg = "pk"
 
