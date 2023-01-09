@@ -14,6 +14,7 @@ class Account(models.Model):
         "insurance.Insurance",
         related_name="account",
         blank=True,
+
         null=True,
     )
     economic_consultance_id = models.ForeignKey(

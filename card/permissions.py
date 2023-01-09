@@ -1,4 +1,5 @@
 from rest_framework import permissions
+from account.models import Account
 import ipdb
 class OnlyADMlistOpenToPost(permissions.BasePermission):
     
@@ -17,6 +18,7 @@ class OnlyADMorOwner(permissions.BasePermission):
              
 
             if not request.user.is_superuser:
-                return request.user.id == obj.id
+                account= Account.objects.get(user_id=request.user.id)
+                return account.id == obj.account_id
             
             return True

@@ -4,15 +4,19 @@ from rest_framework_simplejwt.authentication import JWTAuthentication
 
 from card.models import Card
 from account.models import Account
+from users.models import User
 
 from .serializers import CardSerializer
 
-from users.permissions import OnlyADMorOwner
+from .permissions import OnlyADMorOwner
 from django.shortcuts import get_object_or_404
 
 import random
 import datetime
 
+import cryptocode
+
+import ipdb
 class CardView(APIView):
     authentication_classes=[JWTAuthentication]
     permission_classes=[IsAuthenticated]
@@ -25,7 +29,13 @@ class CardView(APIView):
                 number = random.randint(1000000000000000,9999999999999999)
         except:
             pass
-
+        
+        #CRIANDO O HASH DO CARTÃO
+        number_to_string= str(number)
+        key= "cardcrypto"
+        card_encoded = cryptocode.encrypt(number_to_string, key)
+        
+        
         #GERA O CVV
         cvv = random.randint(100,999)
         try:
@@ -38,20 +48,31 @@ class CardView(APIView):
         #GERA A DATA DE EXPIRAÇÃO DO CARTÃO
         date_now = datetime.datetime.now()
         year= date_now.year
-        due_card= f"{date_now.month}/{year+4}"
+        due_card= f"{date_now.month}-{year+4}"
 
         #DEFINE O LIMITE DO CARTÃO
         if request.data["type"] == "Credit" or request.data["type"]=="Múltiplo":
-            balance =  Account.objects.get(user_id= request.user.id)
-            total_limit= balance["balance"] * 3
+            
+            income =  User.objects.get(id= request.user.id)
+            total_limit= income.monthly_income * 0.7
         else:
             total_limit= 0.0
 
+        #PESQUISA A ACCOUNT REFERENTE AO CARTÃO
+        account = get_object_or_404(Account, user_id = request.user.id)
+
         card = CardSerializer(data= request.data)
         card.is_valid(raise_exception=True)
-        card.save(number=str(number),cvv= str(cvv), invoice_balance=0, due_card= due_card, total_limit= total_limit, available_limit= total_limit)
+        card.save(number=card_encoded,cvv= str(cvv), balance_invoices=0, due_card= due_card, total_limit= total_limit, available_limit= total_limit, account_id= account.id)
+        card_decoded=cryptocode.decrypt(card_encoded, key)
 
-        return Response(card.data, status.HTTP_201_CREATED)
+        number_card= {"number": card_decoded}
+        dict_return={}
+        dict_return.update(number_card)
+        for _ in card.data:
+            dict_return.update(card.data)
+
+        return Response(dict_return, status.HTTP_201_CREATED)
 
 
 class CardDetailView(APIView):
