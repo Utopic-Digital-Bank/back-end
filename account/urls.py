@@ -1,8 +1,10 @@
 from django.urls import path, include
 from . import views
+
 from insurance import views as InsuranceViews
 from card import views as CardViews
 from extract import views as ExtractViews
+
 urlpatterns = [
     path("account/", views.AccountView.as_view()),
     path("account/<int:pk>/", views.AccountDetails.as_view()),

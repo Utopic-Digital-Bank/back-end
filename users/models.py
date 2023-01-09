@@ -6,3 +6,9 @@ class User(AbstractUser):
     email = models.EmailField(max_length=50)
     birthdate = models.DateField()
     cpf = models.CharField(max_length=11)
+    monthly_income = models.FloatField()
+
+    first_name = None
+    last_name = None
+
+

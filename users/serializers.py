@@ -15,7 +15,7 @@ class CustomJWTSerializer(TokenObtainPairSerializer):
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model= User
-        fields=["id","name","birthdate","cpf", "email", "password","is_superuser", "is_active"]
+        fields=["id","name","birthdate","cpf", "email", "password","is_superuser", "is_active", "monthly_income"]
         extra_kwargs={"password":{"write_only":True}}
 
     def create(self, validated_data):

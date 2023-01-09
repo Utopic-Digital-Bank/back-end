@@ -7,7 +7,6 @@ from rest_framework.views import Response, status
 from django.shortcuts import get_object_or_404
 from .models import Extract
 from account.models import Account
-import ipdb
 
 
 class ListExtract (generics.ListAPIView):

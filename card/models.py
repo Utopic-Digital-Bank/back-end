@@ -15,7 +15,7 @@ class DueDateChoices(models.TextChoices):
 
 class Card(models.Model):
     # Dados de segurança(Número do Cartão, Senha e CVV)
-    number = models.CharField(max_length=16)
+    number = models.CharField(max_length=128)
     password = models.CharField(max_length=4)
     cvv = models.CharField(max_length=3)
 
@@ -26,7 +26,7 @@ class Card(models.Model):
         choices=DueDateChoices.choices,
         default=DueDateChoices.first_option
     )
-    due_card = models.DateField()
+    due_card = models.CharField(max_length=8)
     type = models.CharField(
         max_length=8,
         choices=CardChoices.choices,
