@@ -11,7 +11,7 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name="InvestmentCdi",
+            name="EconomicConsultant",
             fields=[
                 (
                     "id",
@@ -22,16 +22,18 @@ class Migration(migrations.Migration):
                         verbose_name="ID",
                     ),
                 ),
-                ("initial_value", models.DecimalField(decimal_places=2, max_digits=17)),
+                ("name", models.CharField(max_length=200)),
                 (
-                    "current_value",
-                    models.DecimalField(decimal_places=2, max_digits=17, null=True),
+                    "specialty",
+                    models.CharField(
+                        choices=[
+                            ("Investimentos", "Investimentos"),
+                            ("Finanças Pessoais", "Financas Pessoais"),
+                            ("Poupança", "Poupanca"),
+                        ],
+                        max_length=30,
+                    ),
                 ),
-                (
-                    "yield_value",
-                    models.DecimalField(decimal_places=2, max_digits=17, null=True),
-                ),
-                ("creation_date", models.DateField(auto_now_add=True)),
             ],
         ),
     ]
