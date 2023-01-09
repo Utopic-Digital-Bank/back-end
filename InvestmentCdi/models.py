@@ -9,4 +9,4 @@ class InvestmentCdi(models.Model):
         max_digits=17, decimal_places=2, null=True)
     creation_date = models.DateField(auto_now_add=True)
     account = models.ForeignKey(
-        "account.account", related_name="investmentsCdi", on_delete=models.PROTECT)
+        "account.Account", related_name="investmentsCdi", on_delete=models.PROTECT)
