@@ -7,13 +7,20 @@ from .serializers import InvestmentCdiSerializer, GetAllInvestmentCdiSerializer
 from InvestmentCdi.models import InvestmentCdi
 from account.models import Account
 from utils.updateInvestment import UpdateInvestment
+from .permissions import IsAccountOwner, IsAdmOrAccountOwner
 
 
 class ListCreateInvestmentCdiView(ListCreateAPIView):
     authentication_classes = [JWTAuthentication]
-    permission_classes = []
 
     def get_serializer_class(self):
+        if self.request.method == 'GET':
+            return IsAdmOrAccountOwner
+
+        elif self.request.method == "POST":
+            return IsAccountOwner
+
+    def get_permissions(self):
         if self.request.method == 'GET':
             return GetAllInvestmentCdiSerializer
 
@@ -48,8 +55,15 @@ class ListCreateInvestmentCdiView(ListCreateAPIView):
 
 class InvestmentCdiDetailView(RetrieveUpdateDestroyAPIView):
     authentication_classes = [JWTAuthentication]
-    permission_classes = []
+    permission_classes = [IsAccountOwner]
     serializer_class = InvestmentCdiSerializer
+
+    def get_permissions(self):
+        if self.request.method == 'GET':
+            return IsAdmOrAccountOwner
+
+        else:
+            return IsAccountOwner
 
     def get_queryset(self):
         investment = get_object_or_404(InvestmentCdi, id=self.kwargs["pk"])
