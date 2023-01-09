@@ -18,6 +18,7 @@ class InvoiceView(generics.ListCreateAPIView):
 
     def perform_create(self, serializer):
         card = get_object_or_404(Card, id=self.kwargs['card_id'])
+        serializer.is_valid(raise_exception=True)
         serializer.save(card=card)
 
 class InvoiceDetailView(generics.UpdateAPIView):
