@@ -12,9 +12,9 @@ class OperationOptions(models.TextChoices):
 class Extract(models.Model):
 
     # Detalhes do faturamento(Valor anterior e Valor atual)
-    valueOperation = models.FloatField(max_length=17)
-    previous_balance = models.FloatField(max_length=17)
-    current_balance = models.FloatField(max_length=17)
+    valueOperation = models.DecimalField(max_digits=17, decimal_places=2)
+    previous_balance = models.DecimalField(max_digits=17, decimal_places=2)
+    current_balance = models.DecimalField(max_digits=17, decimal_places=2)
 
     # Referencias do Faturamento(Tipo de Operação, Data Criação e Chave Estrangeira da 'conta')
     operation = models.CharField(
