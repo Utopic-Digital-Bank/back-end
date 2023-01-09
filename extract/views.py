@@ -13,6 +13,13 @@ from insurance.models import Insurance
 from .models import Extract
 from account.models import Account
 
+class ListExtract (generics.ListAPIView):
+        authentication_classes = [JWTAuthentication]
+        permission_classes = [IsAuthenticated, IsAccountOwner]
+        serializer_class = Extract
+        queryset = Extract.objects.all()
+       
+
 class CreateExtract(generics.ListCreateAPIView):
         authentication_classes = [JWTAuthentication]
         permission_classes = [IsAuthenticated, IsAccountOwner]
@@ -22,7 +29,7 @@ class CreateExtract(generics.ListCreateAPIView):
 
         def perform_create(self, serializer):
  #   Atualiza somente o balance
-            account = get_object_or_404(Account, id = self.account_id)
+            account = get_object_or_404(Account, id = self.kwargs["pk"])
             valueOperation = self.valueOperation
             self.previous_balance = account.balance
             
