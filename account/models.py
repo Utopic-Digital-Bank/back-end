@@ -5,7 +5,7 @@ class Account(models.Model):
     balance = models.FloatField(default=0.0)
     created_at = models.DateTimeField(auto_now=True)
 
-    user_id = models.OneToOneField(
+    user = models.OneToOneField(
         "users.User",
         on_delete=models.PROTECT,
         related_name="account",
@@ -14,7 +14,8 @@ class Account(models.Model):
         "insurance.Insurance",
         related_name="account",
         blank=True,
-        
+
+        null=True,
     )
     economic_consultance_id = models.ForeignKey(
         "economicConsultant.EconomicConsultant",
@@ -22,4 +23,4 @@ class Account(models.Model):
         related_name="account",
         blank=True,
         null=True,
-        )
+    )

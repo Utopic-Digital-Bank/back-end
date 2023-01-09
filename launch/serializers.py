@@ -8,6 +8,7 @@ class LaunchSerializer(serializers.ModelSerializer):
         fields = [
             "id",
             "value",
+            "parcel",
             "establishment",
             "date_hour",
         ]

@@ -39,4 +39,5 @@ class Card(models.Model):
 
     # Detalhamento do status do cartão(Status atual, Chave Estrangeira do app 'Conta' )
     is_active = models.BooleanField(default=True)
-    account_id = models.ForeignKey("account.Account", related_name="card", on_delete=models.PROTECT)
+    account = models.ForeignKey(
+        "account.Account", related_name="card", on_delete=models.PROTECT)

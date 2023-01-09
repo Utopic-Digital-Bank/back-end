@@ -4,5 +4,5 @@ from . import views
 from invoices import views as invoices_views
 
 urlpatterns = [
-    path("invoices/<int:pk>/", invoices_views.InvoiceDetailView.as_view()),
+    path("card/<int:card_id>/invoices/", views.InvoiceView.as_view()),
 ]
