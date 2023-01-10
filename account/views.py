@@ -42,10 +42,10 @@ class AccountDetails(generics.RetrieveUpdateAPIView):
         for insurance in insuranceList:
             insuranceGet = get_object_or_404(Insurance, name = insurance.name)
             accInsurance.append(insuranceGet)
-        
-        accountOwner = Account.objects.filter(user_id= self.request.user.id)
-        accountOwner.insurance.clear()
-        serializer.add(insurance_id = accInsurance)
+        if insuranceList.len > 0:
+            accountOwner = Account.objects.filter(user_id= self.request.user.id)
+            accountOwner.insurance.clear()
+            serializer.add(insurance_id = accInsurance)
         
         EconomicGet = get_object_or_404(EconomicConsultant, name = self.request.name)
         serializer.save(user_id=self.request.user.id, economic_consultant_id = EconomicGet.id)
