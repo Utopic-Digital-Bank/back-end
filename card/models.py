@@ -8,15 +8,15 @@ class CardChoices(models.TextChoices):
 
 
 class DueDateChoices(models.TextChoices):
-    first_option = "05"
-    second_option = "15"
-    third_option = "29"
+    first_option = "06"
+    second_option = "19"
+    third_option = "28"
 
 
 class Card(models.Model):
     # Dados de segurança(Número do Cartão, Senha e CVV)
     number = models.CharField(max_length=128)
-    password = models.CharField(max_length=4)
+    password = models.CharField(max_length=128)
     cvv = models.CharField(max_length=3)
 
     # Dados da Fatura(Valor Atual, Dia do Vencimento, Tipo do Cartão)
