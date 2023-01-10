@@ -1,15 +1,17 @@
 from rest_framework.views import APIView, Response, status
 from rest_framework_simplejwt.views import TokenObtainPairView
+from rest_framework.generics import ListCreateAPIView, UpdateAPIView
 from users.serializers import UserSerializer, CustomJWTSerializer
-
 from .models import User
 from .permissions import OnlyADMlistOpenToPost, OnlyADMorOwner
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework_simplejwt.exceptions import InvalidToken, TokenError
-
 from django.shortcuts import get_object_or_404
+from drf_spectacular.utils import extend_schema
 
+
+@extend_schema(tags=["login"])
 class LoginJWTView(TokenObtainPairView):
     serializer_class = CustomJWTSerializer
 
@@ -36,9 +38,11 @@ class LoginJWTView(TokenObtainPairView):
         return Response(serializer.validated_data, status=status.HTTP_200_OK)
 
 
-class UserView(APIView):
+@extend_schema(tags=["user"])
+class UserView(ListCreateAPIView):
     authentication_classes = [JWTAuthentication]
     permission_classes = [OnlyADMlistOpenToPost]
+    serializer_class = UserSerializer
 
     def post(self, request):
         user = UserSerializer(data=request.data)
@@ -53,19 +57,17 @@ class UserView(APIView):
         serializer = UserSerializer(user, many=True)
         return Response(serializer.data, status.HTTP_200_OK)
 
-class UserDetailView(APIView):
-    authentication_classes=[JWTAuthentication]
-    permission_classes=[IsAuthenticated,OnlyADMorOwner] 
+
+@extend_schema(tags=["user"])
+class UserDetailView(UpdateAPIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated, OnlyADMorOwner]
+    serializer_class = UserSerializer
 
     def patch(self, request, user_id):
-        user = get_object_or_404(User,id= user_id)
+        user = get_object_or_404(User, id=user_id)
         self.check_object_permissions(request, user)
-        serializer= UserSerializer(user, request.data, partial=True)
+        serializer = UserSerializer(user, request.data, partial=True)
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data, status.HTTP_201_CREATED)
-
-
-
-    
-    

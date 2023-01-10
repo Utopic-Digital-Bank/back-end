@@ -7,12 +7,14 @@ from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from django.shortcuts import get_object_or_404
 from datetime import date, timedelta
-import ipdb
+from drf_spectacular.utils import extend_schema
 
+
+@extend_schema(tags=["invoice"])
 class InvoiceView(generics.ListCreateAPIView):
-    #authentication_classes = [JWTAuthentication]
-    #permission_classes = [IsAuthenticatedOrReadOnly]
-    
+    # authentication_classes = [JWTAuthentication]
+    # permission_classes = [IsAuthenticatedOrReadOnly]
+
     serializer_class = InvoiceSerializer
     queryset = Invoice.objects.all()
 
@@ -21,10 +23,11 @@ class InvoiceView(generics.ListCreateAPIView):
         serializer.is_valid(raise_exception=True)
         serializer.save(card=card)
 
+
 class InvoiceDetailView(generics.UpdateAPIView):
-    #authentication_classes = [JWTAuthentication]
-    #permission_classes = [IsAuthenticatedOrReadOnly]
-    
+    # authentication_classes = [JWTAuthentication]
+    # permission_classes = [IsAuthenticatedOrReadOnly]
+
     def perform_update(self, serializer):
         card = get_object_or_404(Card, id=self.kwargs['card_id'])
         account = get_object_or_404(Account, id=self.kwargs['account_id'])

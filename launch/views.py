@@ -8,8 +8,10 @@ from .permissions import IsAccountOwner
 from card.models import Card
 from invoices.models import Invoice
 from django.shortcuts import get_object_or_404
+from drf_spectacular.utils import extend_schema
 
 
+@extend_schema(tags=["launch"])
 class LaunchView(generics.CreateAPIView):
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAccountOwner]

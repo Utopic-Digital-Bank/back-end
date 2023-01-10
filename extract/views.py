@@ -7,8 +7,10 @@ from rest_framework.views import Response, status
 from django.shortcuts import get_object_or_404
 from .models import Extract
 from account.models import Account
+from drf_spectacular.utils import extend_schema
 
 
+@extend_schema(tags=["extract"])
 class ListExtract (generics.ListAPIView):
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated, IsAccountOwner]
@@ -16,6 +18,7 @@ class ListExtract (generics.ListAPIView):
     queryset = Extract.objects.all()
 
 
+@extend_schema(tags=["account"])
 class CreateExtract(generics.ListCreateAPIView):
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated, IsAccountOwner]

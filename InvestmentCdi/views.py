@@ -10,8 +10,10 @@ from account.models import Account
 from utils.updateInvestment import UpdateInvestment
 from .permissions import IsAccountOwner
 import ipdb
+from drf_spectacular.utils import extend_schema
 
 
+@extend_schema(tags=["investment cdi"])
 class ListCreateInvestmentCdiView(ListCreateAPIView):
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated, IsAccountOwner]
@@ -49,6 +51,8 @@ class ListCreateInvestmentCdiView(ListCreateAPIView):
         return serializer.save(account_id=self.kwargs["account_id"])
 
 
+@extend_schema(tags=["investment cdi"])
+@extend_schema(methods=["PUT", "PATCH"], exclude=True)
 class InvestmentCdiDetailView(RetrieveUpdateDestroyAPIView):
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated, IsAccountOwner]
