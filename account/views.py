@@ -36,7 +36,16 @@ class AccountDetails(generics.RetrieveUpdateAPIView):
     lookup_url_kwarg = "pk"
 
 
-    # def perform_update(self, serializer):
-    #     insuranceGet = get_object_or_404(Insurance, name = self.request.name)
-    #     EconomicGet = get_object_or_404(EconomicConsultant, name = self.request.name)
-
+    def perform_update(self, serializer):
+        insuranceList = [self.request.data.insurance]
+        accInsurance = [""]
+        for insurance in insuranceList:
+            insuranceGet = get_object_or_404(Insurance, name = insurance.name)
+            accInsurance.append(insuranceGet)
+        
+        accountOwner = Account.objects.filter(user_id= self.request.user.id)
+        accountOwner.insurance.clear()
+        serializer.add(insurance_id = accInsurance)
+        
+        EconomicGet = get_object_or_404(EconomicConsultant, name = self.request.name)
+        serializer.save(user_id=self.request.user.id, economic_consultant_id = EconomicGet.id)
