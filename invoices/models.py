@@ -1,10 +1,10 @@
 from django.db import models
 
+
 class Invoice(models.Model):
     class Meta:
         ordering = ("id",)
     value = models.FloatField()
-    month_reference = models.DateField()
     closing_date = models.DateField()
     paid = models.BooleanField(default=False)
     due_date = models.DateField()
@@ -18,4 +18,4 @@ class Invoice(models.Model):
     launch = models.ManyToManyField(
         "launch.Launch",
         related_name="invoices",
-    ) 
+    )

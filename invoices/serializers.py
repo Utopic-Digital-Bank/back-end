@@ -4,16 +4,16 @@ from .models import Invoice
 from datetime import date, datetime
 import ipdb
 
+
 class InvoiceSerializer(serializers.ModelSerializer):
     launch = LaunchSerializer(many=True, read_only=True)
-    #value = serializers.SerializerMethodField(method_name='sub_total')
+    # value = serializers.SerializerMethodField(method_name='sub_total')
 
     class Meta:
         model = Invoice
         fields = [
-            'id', 
-            'value', 
-            'month_reference', 
+            'id',
+            'value',
             'closing_date',
             'paid',
             'due_date',
@@ -21,11 +21,10 @@ class InvoiceSerializer(serializers.ModelSerializer):
         ]
         read_only_fields = [
             'value',
-            'due_date', 
-            'month_reference',
+            'due_date',
             'launch',
         ]
-    
+
     def create(self, validated_data):
         card = validated_data['card']
         object = Invoice()
@@ -41,7 +40,8 @@ class InvoiceSerializer(serializers.ModelSerializer):
                 current_year = int(current_year) + 1
                 current_month = 1
             current_month = int(current_month) + 1
-        date_reference = datetime(int(current_year), int(current_month), int(card.due_date))
+        date_reference = datetime(int(current_year), int(
+            current_month), int(card.due_date))
         closing_date = validated_data.get('closing_date')
         object.closing_date = closing_date
         object.month_reference = str(date_reference.strftime("%Y-%m-%d"))
@@ -49,16 +49,16 @@ class InvoiceSerializer(serializers.ModelSerializer):
         object.save()
         return object
 
-
-    def update(self, instance: Invoice, validated_data: dict) -> Invoice:        
-        for key, value in validated_data.items():            
+    def update(self, instance: Invoice, validated_data: dict) -> Invoice:
+        for key, value in validated_data.items():
             if key == 'paid':
                 if (value is True):
                     setattr(instance, key, value)
                 else:
-                    raise ValueError(f"It's not possible to change the payment status")
+                    raise ValueError(
+                        f"It's not possible to change the payment status")
             else:
                 raise KeyError(f"The parameter {key} not is alterabled")
 
-    def sub_total(self, obj:Invoice):
+    def sub_total(self, obj: Invoice):
         return int(200)
