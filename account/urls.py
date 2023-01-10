@@ -10,7 +10,7 @@ urlpatterns = [
     path("account/<int:pk>/", views.AccountDetails.as_view()),
     path("account/<int:account_id>/", include("InvestmentCdi.urls")),
     path("account/card/", CardViews.CardView.as_view()),
-    path("account/card/<int:card_int>/launch/",
+    path("account/card/<int:card_id>/",
          CardViews.CardDetailView.as_view()),
     path("account/<int:account_id>/operation/",
          ExtractViews.CreateExtract.as_view()),

@@ -44,6 +44,7 @@ DJANGO_APPS = [
 
 THIRD_PARTY_APPS = [
     "rest_framework",
+    'drf_spectacular',
 ]
 
 MY_APPS = [
@@ -154,6 +155,18 @@ STATIC_URL = "static/"
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+REST_FRAMEWORK = {
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+}
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Utopic Digital Bank - API',
+    'DESCRIPTION': 'API para um Banco Digital',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+    'TAGS': [{"name": "login", "description": "endpoint login"}, {"name": "user", "description": "endpoints user (usuário)"}, {"name": "account", "description": "endpoints account (conta)"}, {"name": "investment cdi", "description": "endpoints investment cdi (Investimento CDI)"}, {"name": "card", "description": "endpoints card (cartão)"}, {"name": "economic consultant", "description": "endpoints economic-consultant (consultor econômico)"}, {"name": "insurance", "description": "endpoints insurance (seguro)"}, {"name": "launch", "description": "endpoints launch (lançamento)"}, {"name": "invoice", "description": "endpoints invoice (fatura)"},]
+}
 
 AUTH_USER_MODEL = "users.User"
 
