@@ -53,7 +53,7 @@ class InvoiceSerializer(serializers.ModelSerializer):
     def update(self, instance: Invoice, validated_data: dict) -> Invoice:        
         for key, value in validated_data.items():            
             if key == 'paid':
-                if (value is True):
+                if value == True:
                     setattr(instance, key, value)
                 else:
                     raise ValueError(f"It's not possible to change the payment status")
