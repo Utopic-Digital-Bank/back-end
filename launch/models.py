@@ -23,9 +23,8 @@ class Launch(models.Model):
     parcel = models.CharField(
         max_length=2,
         choices=ParcelNumber.choices,
-        default=1,
     )
-    date_hour = models.DateTimeField(auto_now_add=True, null=True)
+    date_hour = models.DateTimeField(auto_now_add=True)
 
     def __repr__(self) -> str:
         return f"<[{self.id}] {self.establishment} - {self.value} - {self.date_hour} - {self.invoice}>"
