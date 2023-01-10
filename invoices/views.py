@@ -24,6 +24,7 @@ class InvoiceView(generics.ListCreateAPIView):
         serializer.save(card=card)
 
 
+@extend_schema(tags=["invoice"])
 class InvoiceDetailView(generics.UpdateAPIView):
     # authentication_classes = [JWTAuthentication]
     # permission_classes = [IsAuthenticatedOrReadOnly]
