@@ -2,26 +2,22 @@ from django.shortcuts import *
 from rest_framework.generics import RetrieveUpdateDestroyAPIView, ListCreateAPIView
 from rest_framework.views import status, Response
 from rest_framework_simplejwt.authentication import JWTAuthentication
+from rest_framework.permissions import IsAuthenticated
 
 from .serializers import InvestmentCdiSerializer, GetAllInvestmentCdiSerializer
 from InvestmentCdi.models import InvestmentCdi
 from account.models import Account
 from utils.updateInvestment import UpdateInvestment
-from .permissions import IsAccountOwner, IsAdmOrAccountOwner
+from .permissions import IsAccountOwner
+import ipdb
 
 
 class ListCreateInvestmentCdiView(ListCreateAPIView):
     authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated, IsAccountOwner]
 
     def get_serializer_class(self):
-        if self.request.method == 'GET':
-            return IsAdmOrAccountOwner
-
-        elif self.request.method == "POST":
-            return IsAccountOwner
-
-    def get_permissions(self):
-        if self.request.method == 'GET':
+        if self.request.method == "GET":
             return GetAllInvestmentCdiSerializer
 
         elif self.request.method == "POST":
@@ -55,15 +51,8 @@ class ListCreateInvestmentCdiView(ListCreateAPIView):
 
 class InvestmentCdiDetailView(RetrieveUpdateDestroyAPIView):
     authentication_classes = [JWTAuthentication]
-    permission_classes = [IsAccountOwner]
+    permission_classes = [IsAuthenticated, IsAccountOwner]
     serializer_class = InvestmentCdiSerializer
-
-    def get_permissions(self):
-        if self.request.method == 'GET':
-            return IsAdmOrAccountOwner
-
-        else:
-            return IsAccountOwner
 
     def get_queryset(self):
         investment = get_object_or_404(InvestmentCdi, id=self.kwargs["pk"])
