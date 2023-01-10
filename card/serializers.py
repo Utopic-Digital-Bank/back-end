@@ -23,7 +23,7 @@ class CardSerializer(serializers.Serializer):
     
     def update(self, instance, validated_data):
         for key, value in validated_data.items():
-            if (key is "due_date"):
+            if key == "due_date":
                 setattr(instance, key, value)
 
             else:
