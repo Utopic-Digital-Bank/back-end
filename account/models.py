@@ -10,14 +10,13 @@ class Account(models.Model):
         on_delete=models.PROTECT,
         related_name="account",
     )
-    insurance_id = models.ManyToManyField(
+    insurance = models.ManyToManyField(
         "insurance.Insurance",
         related_name="account",
         blank=True,
-
         null=True,
     )
-    economic_consultance_id = models.ForeignKey(
+    economic_consultance = models.ForeignKey(
         "economicConsultant.EconomicConsultant",
         on_delete=models.PROTECT,
         related_name="account",

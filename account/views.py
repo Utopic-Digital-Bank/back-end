@@ -21,9 +21,7 @@ class AccountView(generics.ListCreateAPIView):
     serializer_class = AccountSerializer
     queryset = Account.objects.all()
     pagination_class = PageNumberPagination
-    def perform_create(self, serializer):
-
-     
+    def perform_create(self, serializer): 
         serializer.save(user_id=self.request.user.id)
 
 
@@ -34,9 +32,38 @@ class AccountDetails(generics.RetrieveUpdateAPIView):
     serializer_class = UpdateAccount
     queryset = Account.objects.all()
     lookup_url_kwarg = "pk"
+    
 
 
-    # def perform_update(self, serializer):
-    #     insuranceGet = get_object_or_404(Insurance, name = self.request.name)
-    #     EconomicGet = get_object_or_404(EconomicConsultant, name = self.request.name)
+    #def perform_update(self, serializer):
+        
+    #     insuranceList = self.request.data["insurance"]
+    #     consultance = self.request.data["economic_consultance"]
+        
+    #     if insuranceList:
+    #         for insurance in insuranceList:
+    #             insuranceGet = get_object_or_404(Insurance, name = insurance)
 
+    #         ...
+            
+    #     if consultance:
+            
+    #         ...
+        
+    #     serializer.save(user_id=self.request.user.id)
+
+#  accInsurance = []
+#         for insurance in insuranceList:
+#             insuranceGet = get_object_or_404(Insurance, name = insurance)
+#             accInsurance.append(insuranceGet)
+#         if len(insuranceList)>0:
+#             accountOwner = Account.objects.get(user_id= self.request.user.id)
+#             accountOwner.insurance.clear()
+#             accountOwner.insurance.set(accInsurance)
+
+
+
+#         EconomicGet = get_object_or_404(EconomicConsultant, id = self.request.data["economic_consultance"])
+#         #ipdb.set_trace()
+#         accountOwner.economic_consultance.set(EconomicGet)
+#         accountOwner.save()
