@@ -8,7 +8,7 @@ class Specialtys(models.TextChoices):
 
 
 class EconomicConsultant(models.Model):
-    name = models.CharField(max_length=200)
+    name = models.CharField(max_length=200, unique=True)
     specialty = models.CharField(
         max_length=30,
         choices=Specialtys.choices
