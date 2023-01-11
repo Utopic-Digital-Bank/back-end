@@ -3,14 +3,14 @@ from rest_framework.generics import RetrieveUpdateDestroyAPIView, ListCreateAPIV
 from rest_framework.views import status, Response
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.permissions import IsAuthenticated
+from drf_spectacular.utils import extend_schema
+import ipdb
 
-from .serializers import InvestmentCdiSerializer, GetAllInvestmentCdiSerializer
 from InvestmentCdi.models import InvestmentCdi
 from account.models import Account
 from utils.updateInvestment import UpdateInvestment
+from .serializers import InvestmentCdiSerializer, GetAllInvestmentCdiSerializer
 from .permissions import IsAccountOwner
-import ipdb
-from drf_spectacular.utils import extend_schema
 
 
 @extend_schema(tags=["investment cdi"])
@@ -41,9 +41,8 @@ class ListCreateInvestmentCdiView(ListCreateAPIView):
         if (account.balance >= request.data["initial_value"]):
             account.balance -= request.data["initial_value"]
             self.perform_create(serializer)
-            headers = self.get_success_headers(serializer.data)
             account.save()
-            return Response(serializer.data, status.HTTP_201_CREATED, headers=headers)
+            return Response(serializer.data, status.HTTP_201_CREATED)
         else:
             return Response({"balanceInsuficient": "account does not have enough balance for the requested investment"}, status.HTTP_402_PAYMENT_REQUIRED)
 
