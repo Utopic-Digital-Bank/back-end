@@ -9,6 +9,9 @@ import ipdb
 class IsCardOwnerOrAdmin(permissions.BasePermission):
     def has_permission(self, request, view):
         card_id = request.parser_context['kwargs']['card_id']
+        card = Card.objects.filter(id=card_id)
+        if not card:
+            return True
         card = Card.objects.get(id=card_id)
         account = Account.objects.get(id=card.account_id)
         return (account.user_id == request.user.id) or (

@@ -7,7 +7,7 @@ import ipdb
 
 class IsAccountOwner(permissions.BasePermission):
     def has_permission(self, request, view) -> bool:
-        account_id = request.parser_context["kwargs"]["account_id"]
+        account_id = request.parser_context["kwargs"]["pk"]
         account = Account.objects.filter(id=account_id)
         if not account:
             return True
@@ -18,6 +18,8 @@ class IsAccountOwner(permissions.BasePermission):
 
 class IsUserOrAdmin(permissions.BasePermission):
     def has_permission(self, request, view) -> bool:
+        if request.method == "POST":
+            return request.user.is_authenticated
         account_id = request.parser_context["kwargs"]["account_id"]
         account = Account.objects.filter(id=account_id)
         if not account:
