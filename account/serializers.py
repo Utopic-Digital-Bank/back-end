@@ -46,26 +46,24 @@ class UpdateAccount(serializers.ModelSerializer):
     def update(self, instance: Account, validated_data):
         accInsurance = []
 
-        if "insurance" in validated_data:
-            insuranceList = validated_data["insurance"]
-            for insurance in insuranceList:
-                insuranceGet = Insurance.objects.filter(name = insurance)
-                if not insuranceGet:
-                    raise ValueError(f"Not found the insurance {insurance}")
-            insuranceGet = Insurance.objects.get(name = insurance)
-            accInsurance.append(insuranceGet.id)
+        # if "insurance" in validated_data:
+        #     insuranceList = validated_data["insurance"]
+        #     for insurance in insuranceList:
+        #         insuranceGet = Insurance.objects.filter(name = insurance)
+        #         if not insuranceGet:
+        #             raise ValueError(f"Not found the insurance {insurance}")
+        #     insuranceGet = Insurance.objects.get(name = insurance)
+        #     accInsurance.append(insuranceGet.id)
 
-            instance.insurance.set(accInsurance)
+        #     instance.insurance.set(accInsurance)
         
 
 
         if "economic_consultance" in validated_data:
-            ipdb.set_trace()
+            #ipdb.set_trace()
             consultance = validated_data["economic_consultance"]
             consultanceGet = get_object_or_404(EconomicConsultant, id = consultance.id)
-            if not consultanceGet:
-                raise ValueError(f"Not found the consultance {consultance}")
-            aq = instance.economic_consultance.set(consultanceGet.id)
+            instance.economic_consultance.set(consultanceGet.id)
         return instance
 
         
