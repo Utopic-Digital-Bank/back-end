@@ -19,6 +19,10 @@ class LaunchView(generics.CreateAPIView):
     queryset = Launch.objects.all()
     serializer_class = LaunchSerializer
 
+    def get_queryset(self):
+        get_object_or_404(Invoice, id=self.kwargs["card_id"])
+        return super().get_queryset()
+
     def create(self, request, *args, **kwargs):
         card = get_object_or_404(
             Card, id=self.kwargs["card_id"],
