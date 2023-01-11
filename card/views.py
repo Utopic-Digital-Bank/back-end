@@ -22,6 +22,14 @@ class CardView(CreateAPIView):
     serializer_class = CardSerializer
 
     def post(self, request):
+        #PESQUISA A ACCOUNT REFERENTE AO CARTÃO
+        account = get_object_or_404(Account, user_id = request.user.id)
+
+        #VERIFICA SE O USUÁRIO TEM UM CARTÃO DO TIPO PASSADO
+        card_already_exists = Card.objects.filter(account_id= account.id, type = request.data["type"]).exists()
+        if card_already_exists:
+            r=request.data["type"]
+            raise ValueError(f"Usuário já tem um cartão do tipo {r}")
 
         # GERA O NÚMERO DO CARTÃO
         number = random.randint(1000000000000000, 9999999999999999)
@@ -79,8 +87,6 @@ class CardView(CreateAPIView):
             str(str(request.data["password"])), key)
 
 
-        # PESQUISA A ACCOUNT REFERENTE AO CARTÃO
-        account = get_object_or_404(Account, user_id=request.user.id)
 
         card = CardSerializer(data=request.data)
         card.is_valid(raise_exception=True)
