@@ -9,7 +9,7 @@ from card.models import Card
 from invoices.models import Invoice
 from django.shortcuts import get_object_or_404
 from drf_spectacular.utils import extend_schema
-
+import ipdb
 
 @extend_schema(tags=["launch"])
 class LaunchView(generics.CreateAPIView):
@@ -31,10 +31,10 @@ class LaunchView(generics.CreateAPIView):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
-        if card.is_active is False:
+        if card.is_active == False:
             return Response({"msg": "card invalid"}, status.HTTP_403_FORBIDDEN)
 
-        if card.type is "Debit":
+        if card.type == "Debit":
             return Response({"msg": "type card invalid"}, status.HTTP_403_FORBIDDEN)
 
         if card.available_limit < request.data['value']:
@@ -79,6 +79,7 @@ class LaunchView(generics.CreateAPIView):
                     card_id=self.kwargs["card_id"], closing_date=f'{year}-{month}-{day}')
                 invoice = Invoice.objects.get(id=invoice.id)
                 invoice.launch.add(launch)
+                invoice.value += float(invoice.value)
                 invoice.save()
             else:
                 invoice.value = value_parcel
