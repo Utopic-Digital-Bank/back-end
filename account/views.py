@@ -40,7 +40,8 @@ class AccountDetails(generics.RetrieveUpdateAPIView):
     lookup_url_kwarg = "pk"
 
     def get_queryset(self):
-        return Account.objects.get(id=self.kwargs['pk'])
+        account = Account.objects.filter(id=self.kwargs['pk'])
+        return account
 
     # def perform_update(self, serializer):
     #     insuranceGet = get_object_or_404(Insurance, name = self.request.name)

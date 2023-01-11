@@ -8,12 +8,13 @@ import ipdb
 class IsAccountOwner(permissions.BasePermission):
 
     def has_permission(self, request, view) -> bool:
-        account = Account.objects.filter(
-            user_id=request.parser_context["kwargs"]["pk"])
+        account_id = request.parser_context["kwargs"]["pk"]
+        account = Account.objects.filter(id=account_id)
         if not account:
             return True
+        account = Account.objects.get(id=account_id)
 
-        return (account.user_id == request.user.id) or (request.user.is_superuser)
+        return (account.user.id == request.user.id) or (request.user.is_superuser)
 
 
 class IsUserOrAdmin(permissions.BasePermission):
