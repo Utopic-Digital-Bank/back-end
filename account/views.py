@@ -6,9 +6,6 @@ from .permissions import IsAccountOwner, IsUserOrAdmin
 from rest_framework import generics
 from drf_spectacular.utils import extend_schema
 from rest_framework.views import Response, status
-
-import ipdb
-
 from drf_spectacular.utils import extend_schema
 
 
@@ -38,11 +35,4 @@ class AccountDetails(generics.RetrieveUpdateAPIView):
     permission_classes = [IsAccountOwner]
     serializer_class = UpdateAccount
     lookup_url_kwarg = "pk"
-
-    def get_queryset(self):
-        account = Account.objects.filter(id=self.kwargs['pk'])
-        return account
-
-    # def perform_update(self, serializer):
-    #     insuranceGet = get_object_or_404(Insurance, name = self.request.name)
-    #     EconomicGet = get_object_or_404(EconomicConsultant, name = self.request.name)
+    queryset = Account.objects.all()
