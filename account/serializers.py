@@ -22,12 +22,12 @@ class AccountSerializer(serializers.ModelSerializer):
 
 
 class UpdateAccount(serializers.ModelSerializer):
-    insurance_id = serializers.ListField()
+    insurance = serializers.ListField()
     class Meta:
         model = Account
         fields = [
-        "insurance_id",
-        "economic_consultance_id",
+        "insurance",
+        "economic_consultance",
         "id",
         "balance",
         "created_at",
@@ -37,20 +37,44 @@ class UpdateAccount(serializers.ModelSerializer):
             "balance",
             "created_at",
             "user_id"]
+        extra_kwargs = {
+            "insurance": {"required":False},
+            "economic_consultance": {"required": False}
+            }
 
 
-    def update(self, instance, validated_data):
-        insuranceList = [self.request.data.insurance]
+    def update(self, instance: Account, validated_data):
         accInsurance = []
-        for insurance in insuranceList:
-            insuranceGet = get_object_or_404(Insurance, name = insurance.name)
-            accInsurance.append(insuranceGet)
-        ipdb.set_trace()
-        if insuranceList.len > 0:
-            accountOwner = Account.objects.filter(user_id= self.request.user.id)
-            accountOwner.insurance.clear()
-            self.add(insurance_id = accInsurance)
+
+        if "insurance" in validated_data:
+            insuranceList = validated_data["insurance"]
+            for insurance in insuranceList:
+                insuranceGet = Insurance.objects.filter(name = insurance)
+                if not insuranceGet:
+                    raise ValueError(f"Not found the insurance {insurance}")
+            insuranceGet = Insurance.objects.get(name = insurance)
+            accInsurance.append(insuranceGet.id)
+
+            instance.insurance.set(accInsurance)
         
-        EconomicGet = get_object_or_404(EconomicConsultant, name = self.request.name)
-        self.save(user_id=self.request.user.id, economic_consultant_id = EconomicGet.id)
-        return super().update(instance, validated_data)
+
+
+        if "economic_consultance" in validated_data:
+            ipdb.set_trace()
+            consultance = validated_data["economic_consultance"]
+            consultanceGet = get_object_or_404(EconomicConsultant, id = consultance.id)
+            if not consultanceGet:
+                raise ValueError(f"Not found the consultance {consultance}")
+            aq = instance.economic_consultance.set(consultanceGet.id)
+        return instance
+
+        
+    
+
+
+
+
+            
+            
+        
+        
