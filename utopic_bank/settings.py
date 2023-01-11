@@ -116,7 +116,7 @@ else:
             "NAME": os.getenv("POSTGRES_DB"),
             "USER": os.getenv("POSTGRES_USER"),
             "PASSWORD": os.getenv("POSTGRES_PASSWORD"),
-            "HOST": "127.0.0.1",
+            "HOST": "utopic",
             "PORT": 5432,
         }
     }
