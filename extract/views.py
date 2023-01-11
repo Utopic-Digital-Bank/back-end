@@ -1,45 +1,46 @@
-from account.serializers import AccountSerializer
 from extract.serializers import ExtractSerializer
-from rest_framework.pagination import PageNumberPagination
 from rest_framework_simplejwt.authentication import JWTAuthentication
-from rest_framework.permissions import IsAuthenticatedOrReadOnly
-from account.permissions import IsAccountOwner
+from account.permissions import IsAccountOwner, IsUserOrAdmin
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import generics
+from rest_framework.views import Response, status
 from django.shortcuts import get_object_or_404
-from economicConsultant.models import EconomicConsultant
-from insurance.models import Insurance
 from .models import Extract
 from account.models import Account
+from drf_spectacular.utils import extend_schema
+import ipdb
 
 
+@extend_schema(tags=["extract"])
 class ListExtract (generics.ListAPIView):
     authentication_classes = [JWTAuthentication]
-    permission_classes = [IsAuthenticated, IsAccountOwner]
-    serializer_class = Extract
-    queryset = Extract.objects.all()
+    permission_classes = [IsAuthenticated, IsUserOrAdmin]
+    serializer_class = ExtractSerializer
+    lookup_url_kwarg = "account_id"
+
+    def get_queryset(self):
+        return Extract.objects.filter(account_id=self.request.parser_context["kwargs"]["account_id"])
 
 
-class CreateExtract(generics.ListCreateAPIView):
+@extend_schema(tags=["account"])
+class CreateExtract(generics.CreateAPIView):
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated, IsAccountOwner]
-    serializer_class = Extract
+    serializer_class = ExtractSerializer
     queryset = Extract.objects.all()
-    lookup_url_kwarg = "pk"
+    lookup_url_kwarg = "account_id"
+
+    def create(self, request, *args, **kwargs):
+        SAIDA = ["saque", "pagamento", "pix", "transferência"]
+
+        serializer = ExtractSerializer(Extract, data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        account = get_object_or_404(
+            Account, id=self.request.parser_context["kwargs"]["pk"])
+        if (request.data['operation'] in SAIDA and account.balance < request.data['valueOperation']):
+            return Response({"valueInsuficient": "The account balance is not enough for the transaction"}, status.HTTP_402_PAYMENT_REQUIRED)
+        return super().create(request, *args, **kwargs)
 
     def perform_create(self, serializer):
-     #   Atualiza somente o balance
-        account = get_object_or_404(Account, id=self.kwargs["pk"])
-        valueOperation = self.valueOperation
-        self.previous_balance = account.balance
-
-        if self.operation == "DEPOSITO":
-            self.current_balance = self.valueOperation + self.previous_balance
-            account.balance = (self.previous_balance + valueOperation)
-            account.save()
-        else:
-            self.current_balance = self.valueOperation - self.previous_balance
-            self.previous_balance = self.current_balance
-            account.balance = (self.previous_balance - valueOperation)
-            account.save()
-        serializer.save(self)
+        return serializer.save(account_id=self.request.parser_context["kwargs"]["pk"])

@@ -8,16 +8,16 @@ class CardChoices(models.TextChoices):
 
 
 class DueDateChoices(models.TextChoices):
-    first_option = "05"
-    second_option = "15"
-    third_option = "29"
+    first_option = "06"
+    second_option = "19"
+    third_option = "28"
 
 
 class Card(models.Model):
     # Dados de segurança(Número do Cartão, Senha e CVV)
-    number = models.CharField(max_length=16)
-    password = models.CharField(max_length=4)
-    cvv = models.CharField(max_length=3)
+    number = models.CharField(max_length=128)
+    password = models.CharField(max_length=128)
+    cvv = models.CharField(max_length=128)
 
     # Dados da Fatura(Valor Atual, Dia do Vencimento, Tipo do Cartão)
     balance_invoices = models.FloatField(max_length=17)
@@ -26,7 +26,7 @@ class Card(models.Model):
         choices=DueDateChoices.choices,
         default=DueDateChoices.first_option
     )
-    due_card = models.DateField()
+    due_card = models.CharField(max_length=8)
     type = models.CharField(
         max_length=8,
         choices=CardChoices.choices,

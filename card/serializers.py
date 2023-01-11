@@ -1,19 +1,18 @@
 from rest_framework import serializers
 
-
 from .models import Card, DueDateChoices, CardChoices
 
 
 class CardSerializer(serializers.Serializer):
-    number = serializers.CharField()
+    id = serializers.IntegerField(read_only=True)
     password= serializers.CharField()
-    cvv = serializers.CharField()
-    balance_invoices= serializers.FloatField()
+    cvv = serializers.CharField(read_only=True)
+    balance_invoices= serializers.FloatField(read_only=True)
     due_date= serializers.ChoiceField(choices= DueDateChoices.choices, default= DueDateChoices.first_option)
-    due_card= serializers.DateField()
+    due_card= serializers.CharField(read_only=True)
     type = serializers.ChoiceField(choices= CardChoices.choices, default= CardChoices.debit)
     total_limit = serializers.FloatField(read_only=True)
-    available_limit = serializers.FloatField()
+    available_limit = serializers.FloatField(read_only=True)
     is_active= serializers.BooleanField(read_only=True)
 
 
@@ -32,7 +31,6 @@ class CardSerializer(serializers.Serializer):
         instance.save()
 
         return instance
-
 
 
 

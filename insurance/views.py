@@ -3,13 +3,13 @@ from rest_framework.generics import CreateAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework.permissions import IsAdminUser
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.views import Response, status
-
 from .serializers import InsuranceSerializer
 from .models import Insurance
-
 import ipdb
+from drf_spectacular.utils import extend_schema
 
 
+@extend_schema(tags=["insurance"])
 class InsuranceViews(CreateAPIView):
     serializer_class = InsuranceSerializer
     queryset = Insurance.objects.all()
@@ -17,6 +17,8 @@ class InsuranceViews(CreateAPIView):
     permission_classes = [IsAdminUser]
 
 
+@extend_schema(tags=["insurance"])
+@extend_schema(methods=["PUT"], exclude=True)
 class InsuranceDetailsViews(RetrieveUpdateDestroyAPIView):
     serializer_class = InsuranceSerializer
     authentication_classes = [JWTAuthentication]
