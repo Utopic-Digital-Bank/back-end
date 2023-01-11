@@ -25,3 +25,17 @@ class InsuranceSerializer(serializers.ModelSerializer):
         instance.save()
 
         return instance
+
+
+class GetInsuranceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Insurance
+
+        fields = [
+            "id",
+            "name",
+            "tuition",
+            "is_active"
+        ]
+
+    read_only_fields = ["tuition", "is_active"]
