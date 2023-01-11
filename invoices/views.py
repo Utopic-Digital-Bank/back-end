@@ -9,7 +9,7 @@ from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from django.shortcuts import get_object_or_404
 from datetime import date, timedelta
 from drf_spectacular.utils import extend_schema
-
+import ipdb
 
 @extend_schema(tags=["invoice"])
 class InvoiceView(generics.ListAPIView):
@@ -32,12 +32,6 @@ class InvoiceView(generics.ListAPIView):
 class InvoiceDetailView(generics.UpdateAPIView):
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsCardOwner]
+    queryset=Invoice.objects.all()
+    serializer_class = InvoiceSerializer
 
-    def perform_update(self, serializer):
-        card = get_object_or_404(Card, id=self.kwargs['card_id'])
-        account = get_object_or_404(Account, id=self.kwargs['account_id'])
-        if account.balance >= self.value:
-            account.balance -= self.value
-            self.paid = True
-            account.save()
-            return self.save()
