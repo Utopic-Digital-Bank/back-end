@@ -19,6 +19,7 @@ class InvoiceView(generics.ListAPIView):
     serializer_class = InvoiceSerializer
 
     def get_queryset(self):
+        get_object_or_404(Card, id=self.kwargs['card_id'])
         return Invoice.objects.filter(card_id=self.kwargs["card_id"])
 
     def perform_create(self, serializer):

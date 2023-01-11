@@ -37,10 +37,10 @@ class CreateExtract(generics.CreateAPIView):
         serializer.is_valid(raise_exception=True)
 
         account = get_object_or_404(
-            Account, id=self.request.parser_context["kwargs"]["account_id"])
+            Account, id=self.request.parser_context["kwargs"]["pk"])
         if (request.data['operation'] in SAIDA and account.balance < request.data['valueOperation']):
             return Response({"valueInsuficient": "The account balance is not enough for the transaction"}, status.HTTP_402_PAYMENT_REQUIRED)
         return super().create(request, *args, **kwargs)
 
     def perform_create(self, serializer):
-        return serializer.save(account_id=self.request.parser_context["kwargs"]["account_id"])
+        return serializer.save(account_id=self.request.parser_context["kwargs"]["pk"])
