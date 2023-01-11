@@ -21,7 +21,7 @@ class LaunchView(generics.CreateAPIView):
 
     def create(self, request, *args, **kwargs):
         card = get_object_or_404(
-            Card, id=self.kwargs["card_id"], account_id=self.kwargs["account_id"]
+            Card, id=self.kwargs["card_id"],
         )
 
         serializer = self.get_serializer(data=request.data)
