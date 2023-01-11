@@ -33,6 +33,9 @@ class CreateExtract(generics.CreateAPIView):
     def create(self, request, *args, **kwargs):
         SAIDA = ["saque", "pagamento", "pix", "transferência"]
 
+        serializer = ExtractSerializer(Extract, data=request.data)
+        serializer.is_valid(raise_exception=True)
+
         account = get_object_or_404(
             Account, id=self.request.parser_context["kwargs"]["account_id"])
         if (request.data['operation'] in SAIDA and account.balance < request.data['valueOperation']):
