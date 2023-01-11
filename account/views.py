@@ -25,6 +25,7 @@ class AccountView(generics.ListCreateAPIView):
         return super().create(request, *args, **kwargs)
 
     def perform_create(self, serializer):
+
         serializer.save(user_id=self.request.user.id)
 
 
@@ -35,4 +36,7 @@ class AccountDetails(generics.RetrieveUpdateAPIView):
     permission_classes = [IsAccountOwner]
     serializer_class = UpdateAccount
     lookup_url_kwarg = "pk"
-    queryset = Account.objects.all()
+
+    def get_queryset(self):
+        account = Account.objects.filter(id=self.kwargs['pk'])
+        return account
