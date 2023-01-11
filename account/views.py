@@ -20,6 +20,7 @@ class AccountView(generics.ListCreateAPIView):
     queryset = Account.objects.all()
     pagination_class = PageNumberPagination
 
+
     def create(self, request, *args, **kwargs):
         account = Account.objects.filter(user_id=request.user.id)
         if account:
@@ -28,6 +29,7 @@ class AccountView(generics.ListCreateAPIView):
         return super().create(request, *args, **kwargs)
 
     def perform_create(self, serializer):
+
         serializer.save(user_id=self.request.user.id)
 
 
@@ -38,11 +40,37 @@ class AccountDetails(generics.RetrieveUpdateAPIView):
     permission_classes = [IsAccountOwner]
     serializer_class = UpdateAccount
     lookup_url_kwarg = "pk"
+    
+
+
+    #def perform_update(self, serializer):
+        
+    #     insuranceList = self.request.data["insurance"]
+    #     consultance = self.request.data["economic_consultance"]
+        
+    #     if insuranceList:
+    #         for insurance in insuranceList:
+    #             insuranceGet = get_object_or_404(Insurance, name = insurance)
+
+    #         ...
+            
+    #     if consultance:
+            
+    #         ...
+        
+    #     serializer.save(user_id=self.request.user.id)
+
+#  accInsurance = []
+#         for insurance in insuranceList:
+#             insuranceGet = get_object_or_404(Insurance, name = insurance)
+#             accInsurance.append(insuranceGet)
+#         if len(insuranceList)>0:
+#             accountOwner = Account.objects.get(user_id= self.request.user.id)
+#             accountOwner.insurance.clear()
+#             accountOwner.insurance.set(accInsurance)
 
     def get_queryset(self):
         account = Account.objects.filter(id=self.kwargs['pk'])
         return account
 
-    # def perform_update(self, serializer):
-    #     insuranceGet = get_object_or_404(Insurance, name = self.request.name)
-    #     EconomicGet = get_object_or_404(EconomicConsultant, name = self.request.name)
+
