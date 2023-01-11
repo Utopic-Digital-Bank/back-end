@@ -3,8 +3,6 @@ from .models import EconomicConsultant
 
 
 class EconomicConsultantSerializer(serializers.ModelSerializer):
-    id = serializers.IntegerField(read_only=True)
-
     class Meta:
         model = EconomicConsultant
 
@@ -19,3 +17,16 @@ class EconomicConsultantSerializer(serializers.ModelSerializer):
             **validated_data)
 
         return economicConsultant
+
+
+class GetEconomicConsultantSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = EconomicConsultant
+
+        fields = [
+            "id",
+            "name",
+            "specialty",
+        ]
+
+    read_only_fields = ["specialty"]

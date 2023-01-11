@@ -12,9 +12,7 @@ class Account(models.Model):
     )
     insurance = models.ManyToManyField(
         "insurance.Insurance",
-        related_name="account",
-        blank=True,
-        null=True,
+        related_name="account"
     )
     economic_consultance = models.ForeignKey(
         "economicConsultant.EconomicConsultant",

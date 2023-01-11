@@ -8,8 +8,10 @@ from .permissions import IsAccountOwner
 from card.models import Card
 from invoices.models import Invoice
 from django.shortcuts import get_object_or_404
+from drf_spectacular.utils import extend_schema
 
 
+@extend_schema(tags=["launch"])
 class LaunchView(generics.CreateAPIView):
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAccountOwner]
@@ -17,9 +19,13 @@ class LaunchView(generics.CreateAPIView):
     queryset = Launch.objects.all()
     serializer_class = LaunchSerializer
 
+    def get_queryset(self):
+        get_object_or_404(Invoice, id=self.kwargs["card_id"])
+        return super().get_queryset()
+
     def create(self, request, *args, **kwargs):
         card = get_object_or_404(
-            Card, id=self.kwargs["card_id"], account_id=self.kwargs["account_id"]
+            Card, id=self.kwargs["card_id"],
         )
 
         serializer = self.get_serializer(data=request.data)
