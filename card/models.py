@@ -16,8 +16,8 @@ class DueDateChoices(models.TextChoices):
 class Card(models.Model):
     # Dados de segurança(Número do Cartão, Senha e CVV)
     number = models.CharField(max_length=128)
-    password = models.CharField(max_length=4)
-    cvv = models.CharField(max_length=3)
+    password = models.CharField(max_length=128)
+    cvv = models.CharField(max_length=128)
 
     # Dados da Fatura(Valor Atual, Dia do Vencimento, Tipo do Cartão)
     balance_invoices = models.FloatField(max_length=17)

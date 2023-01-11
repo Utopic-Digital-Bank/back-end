@@ -21,6 +21,10 @@ class CardView(APIView):
     authentication_classes=[JWTAuthentication]
     permission_classes=[IsAuthenticated]
     def post(self, request):
+        #VERIFICA O TAMANHO DA SENHA
+        if len(request.data["password"]) != 4:
+            raise ValueError("Password deve ter 4 dígitos")
+
         #GERA O NÚMERO DO CARTÃO
         number = random.randint(1000000000000000,9999999999999999)
         try:
@@ -45,6 +49,11 @@ class CardView(APIView):
         except:
             pass
         
+        #CRIA O HASH DO CVV
+        cvv_to_string = str(cvv)
+        cvv_encoded = cryptocode.encrypt(cvv_to_string, key)
+
+
         #GERA A DATA DE EXPIRAÇÃO DO CARTÃO
         date_now = datetime.datetime.now()
         year= date_now.year
@@ -58,12 +67,19 @@ class CardView(APIView):
         else:
             total_limit= 0.0
 
+        # CRIA O HASH DE SENHA
+        password_encoded = cryptocode.encrypt(request.data["password"], key)
+
         #PESQUISA A ACCOUNT REFERENTE AO CARTÃO
         account = get_object_or_404(Account, user_id = request.user.id)
 
         card = CardSerializer(data= request.data)
         card.is_valid(raise_exception=True)
-        card.save(number=card_encoded,cvv= str(cvv), balance_invoices=0, due_card= due_card, total_limit= total_limit, available_limit= total_limit, account_id= account.id)
+        card.save(number=card_encoded,cvv= cvv_encoded, balance_invoices=0, due_card= due_card,
+             total_limit= total_limit, available_limit= total_limit, account_id= account.id,
+             password= password_encoded
+             )
+
         card_decoded=cryptocode.decrypt(card_encoded, key)
 
         number_card= {"number": card_decoded}
@@ -71,6 +87,9 @@ class CardView(APIView):
         dict_return.update(number_card)
         for _ in card.data:
             dict_return.update(card.data)
+        
+        dict_return["password"]=request.data["password"]
+        dict_return["cvv"]=cvv
 
         return Response(dict_return, status.HTTP_201_CREATED)
 
