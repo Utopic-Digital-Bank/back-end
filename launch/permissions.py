@@ -9,6 +9,10 @@ import ipdb
 
 class IsAccountOwner(permissions.BasePermission):
     def has_permission(self, request, view):
+        card = Card.objects.filter(
+            id=request.parser_context['kwargs']['card_id'])
+        if not card:
+            return True
         card = Card.objects.get(
             id=request.parser_context['kwargs']['card_id'])
         account = Account.objects.get(id=card.account_id)
