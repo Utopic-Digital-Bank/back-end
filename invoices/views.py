@@ -1,6 +1,7 @@
 from .models import Invoice
 from .serializers import InvoiceSerializer
 from account.models import Account
+from .permissions import IsCardOwner, IsCardOwnerOrAdmin
 from card.models import Card
 from rest_framework import generics
 from rest_framework_simplejwt.authentication import JWTAuthentication
@@ -11,12 +12,14 @@ from drf_spectacular.utils import extend_schema
 
 
 @extend_schema(tags=["invoice"])
-class InvoiceView(generics.ListCreateAPIView):
-    # authentication_classes = [JWTAuthentication]
-    # permission_classes = [IsAuthenticatedOrReadOnly]
+class InvoiceView(generics.ListAPIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsCardOwnerOrAdmin]
 
     serializer_class = InvoiceSerializer
-    queryset = Invoice.objects.all()
+
+    def get_queryset(self):
+        return Invoice.objects.all(card_id=self.kwargs["card_id"])
 
     def perform_create(self, serializer):
         card = get_object_or_404(Card, id=self.kwargs['card_id'])
@@ -26,8 +29,8 @@ class InvoiceView(generics.ListCreateAPIView):
 
 @extend_schema(tags=["invoice"])
 class InvoiceDetailView(generics.UpdateAPIView):
-    # authentication_classes = [JWTAuthentication]
-    # permission_classes = [IsAuthenticatedOrReadOnly]
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsCardOwner]
 
     def perform_update(self, serializer):
         card = get_object_or_404(Card, id=self.kwargs['card_id'])
