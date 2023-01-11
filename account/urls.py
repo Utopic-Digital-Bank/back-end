@@ -12,7 +12,7 @@ urlpatterns = [
     path("account/card/", CardViews.CardView.as_view()),
     path("account/card/<int:card_id>/",
          CardViews.CardDetailView.as_view()),
-    path("account/<int:account_id>/operation/",
+    path("account/<int:pk>/operation/",
          ExtractViews.CreateExtract.as_view()),
     path("account/<int:account_id>/extract/",
          ExtractViews.ListExtract.as_view()),
