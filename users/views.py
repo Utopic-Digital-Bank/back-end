@@ -9,6 +9,7 @@ from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework_simplejwt.exceptions import InvalidToken, TokenError
 from django.shortcuts import get_object_or_404
 from drf_spectacular.utils import extend_schema
+import ipdb
 
 
 @extend_schema(tags=["login"])
@@ -61,12 +62,13 @@ class UserView(ListCreateAPIView):
 @extend_schema(tags=["user"])
 class UserDetailView(UpdateAPIView):
     authentication_classes = [JWTAuthentication]
-    permission_classes = [IsAuthenticated, OnlyADMorOwner]
+    permission_classes = [OnlyADMorOwner]
     serializer_class = UserSerializer
+    queryset = User.objects.all()
+    lookup_url_kwarg = "user_id"
 
     def patch(self, request, user_id):
         user = get_object_or_404(User, id=user_id)
-        self.check_object_permissions(request, user)
         serializer = UserSerializer(user, request.data, partial=True)
         serializer.is_valid(raise_exception=True)
         serializer.save()
