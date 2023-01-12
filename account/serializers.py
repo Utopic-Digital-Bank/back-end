@@ -64,6 +64,11 @@ class UpdateAccount(serializers.ModelSerializer):
                 if not insuranceGet:
                     raise serializers.ValidationError(
                         detail=({"ValueError": f"Not found the insurance with name: {insurance['name']}"}))
+                insurance_obj = Insurance.objects.get(
+                    name=insurance["name"])
+                if insurance_obj.is_active == False:
+                    raise serializers.ValidationError(
+                        detail=({"ValueError": f"The insurance: {insurance['name']}, not is active"}))
                 accInsurance.append(insuranceGet)
             instance.insurance.set(accInsurance)
             instance.save()
