@@ -1,7 +1,7 @@
 from rest_framework.views import APIView, Response, status
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework.generics import ListCreateAPIView, RetrieveAPIView, UpdateAPIView
-from users.serializers import UserSerializer, CustomJWTSerializer, UpdateInvoiceSerializer
+from users.serializers import UserSerializer, CustomJWTSerializer
 from .models import User
 from .permissions import OnlyADMlistOpenToPost, OnlyADMorOwner
 from rest_framework.permissions import IsAuthenticated
