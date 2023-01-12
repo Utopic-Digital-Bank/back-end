@@ -11,6 +11,7 @@ from datetime import date, timedelta
 from drf_spectacular.utils import extend_schema
 import ipdb
 
+
 @extend_schema(tags=["invoice"])
 class InvoiceView(generics.ListAPIView):
     authentication_classes = [JWTAuthentication]
@@ -29,9 +30,9 @@ class InvoiceView(generics.ListAPIView):
 
 
 @extend_schema(tags=["invoice"])
+@extend_schema(methods=["PUT"], exclude=True)
 class InvoiceDetailView(generics.UpdateAPIView):
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsCardOwner]
-    queryset=Invoice.objects.all()
+    queryset = Invoice.objects.all()
     serializer_class = InvoiceSerializer
-

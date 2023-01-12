@@ -1,7 +1,7 @@
 from rest_framework.views import APIView, Response, status
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework.generics import ListCreateAPIView, RetrieveAPIView, UpdateAPIView
-from users.serializers import UserSerializer, CustomJWTSerializer
+from users.serializers import UserSerializer, CustomJWTSerializer, UpdateInvoiceSerializer
 from .models import User
 from .permissions import OnlyADMlistOpenToPost, OnlyADMorOwner
 from rest_framework.permissions import IsAuthenticated
@@ -60,6 +60,7 @@ class UserView(ListCreateAPIView):
 
 
 @extend_schema(tags=["user"])
+@extend_schema(methods=["PUT"], exclude=True)
 class UserDetailView(RetrieveAPIView, UpdateAPIView):
     authentication_classes = [JWTAuthentication]
     permission_classes = [OnlyADMorOwner]
