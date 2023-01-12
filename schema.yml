@@ -1,0 +1,1427 @@
+openapi: 3.0.3
+info:
+  title: Your Project API
+  version: 1.0.0
+  description: Your project description
+paths:
+  /api/account/:
+    get:
+      operationId: api_account_list
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      tags:
+      - api
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedAccountList'
+          description: ''
+    post:
+      operationId: api_account_create
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Account'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Account'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Account'
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Account'
+          description: ''
+  /api/account/{account_id}/card/{card_id}/launch/:
+    post:
+      operationId: api_account_card_launch_create
+      parameters:
+      - in: path
+        name: account_id
+        schema:
+          type: string
+        required: true
+      - in: path
+        name: card_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - launch
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Launch'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Launch'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Launch'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Launch'
+          description: ''
+  /api/account/{account_id}/extract/:
+    get:
+      operationId: api_account_extract_list
+      parameters:
+      - in: path
+        name: account_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - api
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Extract'
+          description: ''
+  /api/account/{account_id}/investment-cdi/:
+    get:
+      operationId: api_account_investment_cdi_list
+      parameters:
+      - in: path
+        name: account_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - api
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/GetAllInvestmentCdi'
+          description: ''
+    post:
+      operationId: api_account_investment_cdi_create
+      parameters:
+      - in: path
+        name: account_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InvestmentCdi'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/InvestmentCdi'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/InvestmentCdi'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvestmentCdi'
+          description: ''
+  /api/account/{account_id}/investment-cdi/{id}/:
+    get:
+      operationId: api_account_investment_cdi_retrieve
+      parameters:
+      - in: path
+        name: account_id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - api
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvestmentCdi'
+          description: ''
+    put:
+      operationId: api_account_investment_cdi_update
+      parameters:
+      - in: path
+        name: account_id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InvestmentCdi'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/InvestmentCdi'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/InvestmentCdi'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvestmentCdi'
+          description: ''
+    patch:
+      operationId: api_account_investment_cdi_partial_update
+      parameters:
+      - in: path
+        name: account_id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedInvestmentCdi'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedInvestmentCdi'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedInvestmentCdi'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvestmentCdi'
+          description: ''
+    delete:
+      operationId: api_account_investment_cdi_destroy
+      parameters:
+      - in: path
+        name: account_id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - api
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/account/{account_id}/operation/:
+    get:
+      operationId: api_account_operation_list
+      parameters:
+      - in: path
+        name: account_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - api
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Extract'
+          description: ''
+    post:
+      operationId: api_account_operation_create
+      parameters:
+      - in: path
+        name: account_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Extract'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Extract'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Extract'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Extract'
+          description: ''
+  /api/account/{id}/:
+    get:
+      operationId: api_account_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - api
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateAccount'
+          description: ''
+    put:
+      operationId: api_account_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateAccount'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/UpdateAccount'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UpdateAccount'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateAccount'
+          description: ''
+    patch:
+      operationId: api_account_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedUpdateAccount'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedUpdateAccount'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedUpdateAccount'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateAccount'
+          description: ''
+  /api/account/card/:
+    post:
+      operationId: api_account_card_create
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Card'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Card'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Card'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Card'
+          description: ''
+  /api/account/card/{card_id}/:
+    get:
+      operationId: api_account_card_retrieve
+      parameters:
+      - in: path
+        name: card_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - api
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Card'
+          description: ''
+    put:
+      operationId: api_account_card_update
+      parameters:
+      - in: path
+        name: card_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Card'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Card'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Card'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Card'
+          description: ''
+    patch:
+      operationId: api_account_card_partial_update
+      parameters:
+      - in: path
+        name: card_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedCard'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedCard'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedCard'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Card'
+          description: ''
+    delete:
+      operationId: api_account_card_destroy
+      parameters:
+      - in: path
+        name: card_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - api
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/card/{card_id}/invoices/:
+    get:
+      operationId: api_card_invoices_list
+      parameters:
+      - in: path
+        name: card_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Invoice'
+          description: ''
+    post:
+      operationId: api_card_invoices_create
+      parameters:
+      - in: path
+        name: card_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Invoice'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Invoice'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Invoice'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Invoice'
+          description: ''
+  /api/economic-consultant/:
+    get:
+      operationId: api_economic_consultant_list
+      tags:
+      - api
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/EconomicConsultant'
+          description: ''
+    post:
+      operationId: api_economic_consultant_create
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EconomicConsultant'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/EconomicConsultant'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/EconomicConsultant'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EconomicConsultant'
+          description: ''
+  /api/insurance/:
+    post:
+      operationId: api_insurance_create
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Insurance'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Insurance'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Insurance'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Insurance'
+          description: ''
+  /api/insurance/{id}/:
+    get:
+      operationId: api_insurance_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - api
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Insurance'
+          description: ''
+    put:
+      operationId: api_insurance_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Insurance'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Insurance'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Insurance'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Insurance'
+          description: ''
+    patch:
+      operationId: api_insurance_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedInsurance'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedInsurance'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedInsurance'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Insurance'
+          description: ''
+    delete:
+      operationId: api_insurance_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - api
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/user/:
+    get:
+      operationId: api_user_list
+      tags:
+      - api
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+          description: ''
+    post:
+      operationId: api_user_create
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/User'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/User'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+  /api/user/{user_id}/:
+    put:
+      operationId: api_user_update
+      parameters:
+      - in: path
+        name: user_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/User'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/User'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+    patch:
+      operationId: api_user_partial_update
+      parameters:
+      - in: path
+        name: user_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedUser'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedUser'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedUser'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+  /api/user/login/:
+    post:
+      operationId: api_user_login_create
+      description: |-
+        Takes a set of user credentials and returns an access and refresh JSON web
+        token pair to prove the authentication of those credentials.
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomJWT'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CustomJWT'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CustomJWT'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomJWT'
+          description: ''
+components:
+  schemas:
+    Account:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        balance:
+          type: number
+          format: double
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        user_id:
+          type: integer
+          readOnly: true
+      required:
+      - balance
+      - created_at
+      - id
+      - user_id
+    Card:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        password:
+          type: string
+        cvv:
+          type: string
+          readOnly: true
+        balance_invoices:
+          type: number
+          format: double
+          readOnly: true
+        due_date:
+          allOf:
+          - $ref: '#/components/schemas/DueDateEnum'
+          default: '06'
+        due_card:
+          type: string
+          readOnly: true
+        type:
+          allOf:
+          - $ref: '#/components/schemas/TypeEnum'
+          default: Debit
+        total_limit:
+          type: number
+          format: double
+          readOnly: true
+        available_limit:
+          type: number
+          format: double
+          readOnly: true
+        is_active:
+          type: boolean
+          readOnly: true
+      required:
+      - available_limit
+      - balance_invoices
+      - cvv
+      - due_card
+      - id
+      - is_active
+      - password
+      - total_limit
+    CustomJWT:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+          writeOnly: true
+      required:
+      - password
+      - username
+    DueDateEnum:
+      enum:
+      - '06'
+      - '19'
+      - '28'
+      type: string
+    EconomicConsultant:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 200
+        specialty:
+          $ref: '#/components/schemas/SpecialtyEnum'
+      required:
+      - id
+      - name
+      - specialty
+    Extract:
+      type: object
+      properties:
+        valueOperation:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,15}(?:\.\d{0,2})?$
+        previous_balance:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,15}(?:\.\d{0,2})?$
+          readOnly: true
+        current_balance:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,15}(?:\.\d{0,2})?$
+          readOnly: true
+        operation:
+          $ref: '#/components/schemas/OperationEnum'
+        creation_date:
+          type: string
+          format: date-time
+          readOnly: true
+        account_id:
+          type: integer
+          readOnly: true
+      required:
+      - account_id
+      - creation_date
+      - current_balance
+      - operation
+      - previous_balance
+      - valueOperation
+    GetAllInvestmentCdi:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        current_value:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,15}(?:\.\d{0,2})?$
+          nullable: true
+      required:
+      - id
+    Insurance:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 50
+        tuition:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,15}(?:\.\d{0,2})?$
+        is_active:
+          type: boolean
+      required:
+      - id
+      - name
+      - tuition
+    InvestmentCdi:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        initial_value:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,15}(?:\.\d{0,2})?$
+        current_value:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,15}(?:\.\d{0,2})?$
+          readOnly: true
+          nullable: true
+        yield_value:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,15}(?:\.\d{0,2})?$
+          readOnly: true
+          nullable: true
+        creation_date:
+          type: string
+          format: date
+        account:
+          type: integer
+          readOnly: true
+      required:
+      - account
+      - current_value
+      - id
+      - initial_value
+      - yield_value
+    Invoice:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        value:
+          type: number
+          format: double
+          readOnly: true
+        closing_date:
+          type: string
+          format: date
+        paid:
+          type: boolean
+        due_date:
+          type: string
+          format: date
+          readOnly: true
+        launch:
+          type: array
+          items:
+            $ref: '#/components/schemas/Launch'
+          readOnly: true
+      required:
+      - closing_date
+      - due_date
+      - id
+      - launch
+      - value
+    Launch:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        value:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,7}(?:\.\d{0,2})?$
+        parcel:
+          $ref: '#/components/schemas/ParcelEnum'
+        establishment:
+          type: string
+          maxLength: 20
+        date_hour:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - date_hour
+      - establishment
+      - id
+      - parcel
+      - value
+    OperationEnum:
+      enum:
+      - pix
+      - transferência
+      - saque
+      - pagamento
+      - depósito
+      type: string
+    PaginatedAccountList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Account'
+    ParcelEnum:
+      enum:
+      - 1
+      - 2
+      - 3
+      - 4
+      - 5
+      - 6
+      - 7
+      - 8
+      - 9
+      - 10
+      - 11
+      - 12
+      type: integer
+    PatchedCard:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        password:
+          type: string
+        cvv:
+          type: string
+          readOnly: true
+        balance_invoices:
+          type: number
+          format: double
+          readOnly: true
+        due_date:
+          allOf:
+          - $ref: '#/components/schemas/DueDateEnum'
+          default: '06'
+        due_card:
+          type: string
+          readOnly: true
+        type:
+          allOf:
+          - $ref: '#/components/schemas/TypeEnum'
+          default: Debit
+        total_limit:
+          type: number
+          format: double
+          readOnly: true
+        available_limit:
+          type: number
+          format: double
+          readOnly: true
+        is_active:
+          type: boolean
+          readOnly: true
+    PatchedInsurance:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 50
+        tuition:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,15}(?:\.\d{0,2})?$
+        is_active:
+          type: boolean
+    PatchedInvestmentCdi:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        initial_value:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,15}(?:\.\d{0,2})?$
+        current_value:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,15}(?:\.\d{0,2})?$
+          readOnly: true
+          nullable: true
+        yield_value:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,15}(?:\.\d{0,2})?$
+          readOnly: true
+          nullable: true
+        creation_date:
+          type: string
+          format: date
+        account:
+          type: integer
+          readOnly: true
+    PatchedUpdateAccount:
+      type: object
+      properties:
+        insurance_id:
+          type: array
+          items:
+            type: integer
+            nullable: true
+        economic_consultance_id:
+          type: integer
+          nullable: true
+        id:
+          type: integer
+          readOnly: true
+        balance:
+          type: number
+          format: double
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        user_id:
+          type: integer
+          readOnly: true
+    PatchedUser:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 20
+        birthdate:
+          type: string
+          format: date
+        cpf:
+          type: string
+          maxLength: 11
+        email:
+          type: string
+          format: email
+          maxLength: 50
+        password:
+          type: string
+          writeOnly: true
+          maxLength: 128
+        is_superuser:
+          type: boolean
+          title: Superuser status
+          description: Designates that this user has all permissions without explicitly
+            assigning them.
+        is_active:
+          type: boolean
+          title: Active
+          description: Designates whether this user should be treated as active. Unselect
+            this instead of deleting accounts.
+        monthly_income:
+          type: number
+          format: double
+    SpecialtyEnum:
+      enum:
+      - Investimentos
+      - Finanças Pessoais
+      - Poupança
+      type: string
+    TypeEnum:
+      enum:
+      - Debit
+      - Credit
+      - Múltiplo
+      type: string
+    UpdateAccount:
+      type: object
+      properties:
+        insurance_id:
+          type: array
+          items:
+            type: integer
+            nullable: true
+        economic_consultance_id:
+          type: integer
+          nullable: true
+        id:
+          type: integer
+          readOnly: true
+        balance:
+          type: number
+          format: double
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        user_id:
+          type: integer
+          readOnly: true
+      required:
+      - balance
+      - created_at
+      - id
+      - user_id
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 20
+        birthdate:
+          type: string
+          format: date
+        cpf:
+          type: string
+          maxLength: 11
+        email:
+          type: string
+          format: email
+          maxLength: 50
+        password:
+          type: string
+          writeOnly: true
+          maxLength: 128
+        is_superuser:
+          type: boolean
+          title: Superuser status
+          description: Designates that this user has all permissions without explicitly
+            assigning them.
+        is_active:
+          type: boolean
+          title: Active
+          description: Designates whether this user should be treated as active. Unselect
+            this instead of deleting accounts.
+        monthly_income:
+          type: number
+          format: double
+      required:
+      - birthdate
+      - cpf
+      - email
+      - id
+      - monthly_income
+      - name
+      - password
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: sessionid
+    jwtAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+tags:
+- name: api
+  description: endpoint login
+- name: launch
+  description: endpoints launch (lançamento)
