@@ -1,6 +1,6 @@
 from rest_framework.views import APIView, Response, status
 from rest_framework_simplejwt.views import TokenObtainPairView
-from rest_framework.generics import ListCreateAPIView, UpdateAPIView
+from rest_framework.generics import ListCreateAPIView, RetrieveAPIView, UpdateAPIView
 from users.serializers import UserSerializer, CustomJWTSerializer
 from .models import User
 from .permissions import OnlyADMlistOpenToPost, OnlyADMorOwner
@@ -60,7 +60,7 @@ class UserView(ListCreateAPIView):
 
 
 @extend_schema(tags=["user"])
-class UserDetailView(UpdateAPIView):
+class UserDetailView(RetrieveAPIView, UpdateAPIView):
     authentication_classes = [JWTAuthentication]
     permission_classes = [OnlyADMorOwner]
     serializer_class = UserSerializer
