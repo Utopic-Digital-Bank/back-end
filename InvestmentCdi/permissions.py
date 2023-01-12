@@ -6,15 +6,26 @@ import ipdb
 
 
 class IsAccountOwner(permissions.BasePermission):
-    def has_object_permission(self, request, view: View, obj: User) -> bool:
-        account = Account.objects.get(id=obj.account_id)
-        if (request.method == "POST" or request.method == "DELETE"):
-            if (account.user == request.user):
+
+    def has_permission(self, request, view) -> bool:
+        account_id = request.parser_context["kwargs"]["account_id"]
+        account = Account.objects.filter(id=account_id)
+        if not account:
+            return True
+        account = Account.objects.get(id=account_id)
+        if request.method == "GET":
+            if request.user.is_superuser:
                 return True
-            else:
-                return False
-        if (account.user == request.user):
+
+        return (account.user_id == request.user.id)
+
+    def has_object_permission(self, request, view, obj):
+        account_id = request.parser_context["kwargs"]["account_id"]
+        account = Account.objects.filter(id=account_id)
+        if not account:
             return True
-        if request.user.is_superuser:
-            return True
-        return False
+        account = Account.objects.get(id=account_id)
+        if request.method == "GET":
+            if request.user.is_superuser:
+                return True
+        return account.id == obj.account_id
