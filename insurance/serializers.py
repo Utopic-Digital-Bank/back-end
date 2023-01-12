@@ -28,6 +28,8 @@ class InsuranceSerializer(serializers.ModelSerializer):
 
 
 class GetInsuranceSerializer(serializers.ModelSerializer):
+    name = serializers.CharField()
+
     class Meta:
         model = Insurance
 
