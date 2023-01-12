@@ -35,8 +35,5 @@ class AccountDetails(generics.RetrieveUpdateAPIView):
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAccountOwner]
     serializer_class = UpdateAccount
+    queryset = Account.objects.all()
     lookup_url_kwarg = "pk"
-
-    def get_queryset(self):
-        account = Account.objects.filter(id=self.kwargs['pk'])
-        return account

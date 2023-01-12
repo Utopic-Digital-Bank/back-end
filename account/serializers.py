@@ -46,8 +46,12 @@ class UpdateAccount(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
         if "economic_consultance" in validated_data:
-            economicGet = get_object_or_404(
-                EconomicConsultant, name=validated_data["economic_consultance"]["name"])
+            try:
+                economicGet = get_object_or_404(
+                    EconomicConsultant, name=validated_data["economic_consultance"]["name"])
+            except:
+                raise serializers.ValidationError(
+                    {"economic_consultant": f"Economic consultant {validated_data['economic_consultance']['name']}, not found"})
             instance.economic_consultance = economicGet
             instance.save()
 

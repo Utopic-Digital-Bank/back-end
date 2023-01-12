@@ -20,6 +20,8 @@ class EconomicConsultantSerializer(serializers.ModelSerializer):
 
 
 class GetEconomicConsultantSerializer(serializers.ModelSerializer):
+    name = serializers.CharField()
+
     class Meta:
         model = EconomicConsultant
 
