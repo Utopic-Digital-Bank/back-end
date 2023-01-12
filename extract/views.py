@@ -1,6 +1,6 @@
 from extract.serializers import ExtractSerializer
 from rest_framework_simplejwt.authentication import JWTAuthentication
-from account.permissions import IsAccountOwner, IsUserOrAdmin
+from extract.permissions import IsUserOrAdmin, IsAccountOwner
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import generics
 from rest_framework.views import Response, status

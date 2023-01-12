@@ -7,6 +7,7 @@ from rest_framework import generics
 from drf_spectacular.utils import extend_schema
 from rest_framework.views import Response, status
 from drf_spectacular.utils import extend_schema
+import ipdb
 
 
 @extend_schema(tags=["account"])
@@ -25,7 +26,6 @@ class AccountView(generics.ListCreateAPIView):
         return super().create(request, *args, **kwargs)
 
     def perform_create(self, serializer):
-
         serializer.save(user_id=self.request.user.id)
 
 
